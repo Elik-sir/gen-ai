@@ -1,0 +1,498 @@
+[
+  {
+    "review_id": "r001",
+    "app_name": "FocusFlow",
+    "sentiment": "positive",
+    "issues": [
+      {
+        "category": "performance",
+        "severity": 2,
+        "quote": "Хотелось бы чуть быстрее открывать аналитику",
+        "rationale": "Пользователь упоминает желание ускорить открытие аналитики, что относится к производительности."
+      }
+    ],
+    "short_summary": "Пользователь хвалит дизайн и удобство, но отмечает желание ускорить открытие аналитики."
+  },
+  {
+    "review_id": "r002",
+    "app_name": "FocusFlow",
+    "sentiment": "negative",
+    "issues": [
+      {
+        "category": "performance",
+        "severity": 4,
+        "quote": "приложение подвисает на старте",
+        "rationale": "пользователь сообщает о зависаниях при запуске"
+      },
+      {
+        "category": "ads",
+        "severity": 3,
+        "quote": "реклама стала появляться слишком часто",
+        "rationale": "пользователь жалуется на слишком частую рекламу"
+      }
+    ],
+    "short_summary": "После обновления приложение подвисает на старте и реклама появляется слишком часто"
+  },
+  {
+    "review_id": "r003",
+    "app_name": "FocusFlow",
+    "sentiment": "neutral",
+    "issues": [
+      {
+        "category": "support",
+        "severity": 3,
+        "quote": "поддержка отвечает очень долго",
+        "rationale": "Пользователь жалуется на медленный ответ поддержки"
+      },
+      {
+        "category": "price",
+        "severity": 3,
+        "quote": "Цена подписки кажется завышенной",
+        "rationale": "Пользователь считает цену подписки завышенной"
+      }
+    ],
+    "short_summary": "В целом неплохо, но медленная поддержка и завышенная цена подписки"
+  },
+  {
+    "review_id": "r004",
+    "app_name": "FocusFlow",
+    "sentiment": "positive",
+    "issues": [
+      {
+        "category": "reliability",
+        "severity": 3,
+        "quote": "иногда теряются напоминания при слабом интернете",
+        "rationale": "Пользователь сообщает, что напоминания теряются при слабом интернете, что указывает на проблему надежности."
+      }
+    ],
+    "short_summary": "Пользователю нравится минималистичный интерфейс и виджеты, но иногда теряются напоминания при слабом интернете."
+  },
+  {
+    "review_id": "r005",
+    "app_name": "FocusFlow",
+    "sentiment": "negative",
+    "issues": [
+      {
+        "category": "support",
+        "severity": 4,
+        "quote": "служба поддержки не решила вопрос",
+        "rationale": "Пользователь сообщает, что служба поддержки не помогла с решением проблемы двойной оплаты."
+      },
+      {
+        "category": "price",
+        "severity": 5,
+        "quote": "Оплата прошла два раза",
+        "rationale": "Двойное списание средств — серьезная проблема, связанная с ценой."
+      },
+      {
+        "category": "reliability",
+        "severity": 4,
+        "quote": "Надежность вызывает сомнения",
+        "rationale": "Пользователь явно указывает на сомнения в надежности приложения."
+      }
+    ],
+    "short_summary": "Пользователь столкнулся с двойной оплатой, не получил помощи от поддержки и сомневается в надежности приложения."
+  },
+  {
+    "review_id": "r006",
+    "app_name": "FocusFlow",
+    "sentiment": "positive",
+    "issues": [],
+    "short_summary": "Пользователь хвалит производительность и цену."
+  },
+  {
+    "review_id": "r007",
+    "app_name": "FocusFlow",
+    "sentiment": "negative",
+    "issues": [
+      {
+        "category": "design",
+        "severity": 3,
+        "quote": "Интерфейс перегружен баннерами",
+        "rationale": "Пользователь указывает на перегруженность интерфейса баннерами, что относится к проблеме дизайна."
+      },
+      {
+        "category": "ads",
+        "severity": 4,
+        "quote": "из-за рекламы тяжело пользоваться бесплатной версией",
+        "rationale": "Реклама мешает использованию приложения в бесплатной версии, что является проблемой категории ads."
+      }
+    ],
+    "short_summary": "Пользователь жалуется на перегруженный баннерами интерфейс и рекламу, мешающую использованию бесплатной версии."
+  },
+  {
+    "review_id": "r008",
+    "app_name": "FocusFlow",
+    "sentiment": "positive",
+    "issues": [
+      {
+        "category": "reliability",
+        "severity": 3,
+        "quote": "иногда синхронизация падает и данные появляются с задержкой",
+        "rationale": "User reports synchronization failures and data delays, which impact reliability."
+      }
+    ],
+    "short_summary": "User likes the design and dark theme but experiences occasional sync failures and data delays."
+  },
+  {
+    "review_id": "r009",
+    "app_name": "FocusFlow",
+    "sentiment": "neutral",
+    "issues": [
+      {
+        "category": "performance",
+        "severity": 3,
+        "quote": "запуск долгий",
+        "rationale": "Пользователь указывает на долгую загрузку приложения, что относится к производительности."
+      },
+      {
+        "category": "price",
+        "severity": 4,
+        "quote": "за базовые функции просят подписку",
+        "rationale": "Пользователь недоволен тем, что за базовые функции требуется платная подписка, что относится к цене."
+      }
+    ],
+    "short_summary": "Идея хорошая, но долгий запуск и подписка за базовые функции."
+  },
+  {
+    "review_id": "r010",
+    "app_name": "FocusFlow",
+    "sentiment": "positive",
+    "issues": [],
+    "short_summary": "Пользователь доволен оперативной поддержкой, которая помогла восстановить доступ."
+  },
+  {
+    "review_id": "r011",
+    "app_name": "FocusFlow",
+    "sentiment": "negative",
+    "issues": [
+      {
+        "category": "reliability",
+        "severity": 5,
+        "quote": "Приложение часто вылетает при открытии календаря",
+        "rationale": "Crashes when opening calendar, user explicitly states low reliability"
+      }
+    ],
+    "short_summary": "User reports frequent crashes when opening calendar, low reliability"
+  },
+  {
+    "review_id": "r012",
+    "app_name": "FocusFlow",
+    "sentiment": "neutral",
+    "issues": [
+      {
+        "category": "price",
+        "severity": 3,
+        "quote": "хотелось бы меньше платных ограничений",
+        "rationale": "Пользователь выражает недовольство платными ограничениями и желает больше бесплатных функций."
+      }
+    ],
+    "short_summary": "Удобный интерфейс, но недостаток бесплатных функций и много платных ограничений."
+  },
+  {
+    "review_id": "r013",
+    "app_name": "FocusFlow",
+    "sentiment": "neutral",
+    "issues": [
+      {
+        "category": "support",
+        "severity": 3,
+        "quote": "Поддержка вежливая, но решение проблемы заняло почти неделю.",
+        "rationale": "Support interaction took almost a week, indicating slow response time."
+      }
+    ],
+    "short_summary": "Support was polite but slow."
+  },
+  {
+    "review_id": "r014",
+    "app_name": "FocusFlow",
+    "sentiment": "negative",
+    "issues": [
+      {
+        "category": "ads",
+        "severity": 5,
+        "quote": "После оплаты премиума реклама не отключилась",
+        "rationale": "The user explicitly states that ads did not turn off after premium payment, indicating a problem with ad removal feature."
+      }
+    ],
+    "short_summary": "User reports that after purchasing premium, ads are still shown, feeling deceived."
+  },
+  {
+    "review_id": "r015",
+    "app_name": "FocusFlow",
+    "sentiment": "positive",
+    "issues": [],
+    "short_summary": "Пользователь хвалит скорость, стабильность и дизайн, но отмечает нехватку гибких фильтров задач."
+  },
+  {
+    "review_id": "r016",
+    "app_name": "FocusFlow",
+    "sentiment": "negative",
+    "issues": [
+      {
+        "category": "performance",
+        "severity": 4,
+        "quote": "Сервис медленный в час пик",
+        "rationale": "Упоминание медленной работы сервиса в час пик указывает на проблему производительности."
+      },
+      {
+        "category": "reliability",
+        "severity": 3,
+        "quote": "уведомления приходят с опозданием",
+        "rationale": "Опоздание уведомлений указывает на проблему надежности."
+      }
+    ],
+    "short_summary": "Сервис медленный в час пик, уведомления приходят с опозданием."
+  },
+  {
+    "review_id": "r017",
+    "app_name": "FocusFlow",
+    "sentiment": "positive",
+    "issues": [],
+    "short_summary": "Пользователь хвалит стабильность и надежность планировщика."
+  },
+  {
+    "review_id": "r018",
+    "app_name": "FocusFlow",
+    "sentiment": "neutral",
+    "issues": [
+      {
+        "category": "ads",
+        "severity": 4,
+        "quote": "реклама между экранами сбивает фокус",
+        "rationale": "Пользователь прямо указывает, что реклама нарушает фокус, что особенно критично для приложения, предназначенного для концентрации."
+      }
+    ],
+    "short_summary": "Дизайн хороший, но реклама между экранами мешает фокусу."
+  },
+  {
+    "review_id": "r019",
+    "app_name": "FocusFlow",
+    "sentiment": "negative",
+    "issues": [
+      {
+        "category": "support",
+        "severity": 4,
+        "quote": "Саппорт отвечает шаблонами, конкретной помощи почти нет.",
+        "rationale": "Пользователь жалуется на неполезные шаблонные ответы поддержки."
+      }
+    ],
+    "short_summary": "Проблема с поддержкой: шаблонные ответы без конкретной помощи."
+  },
+  {
+    "review_id": "r020",
+    "app_name": "FocusFlow",
+    "sentiment": "neutral",
+    "issues": [
+      {
+        "category": "performance",
+        "severity": 3,
+        "quote": "подтормаживает при поиске",
+        "rationale": "Пользователь сообщает о замедлении работы приложения при поиске, что относится к производительности."
+      }
+    ],
+    "short_summary": "Пользователь отмечает хорошую цену и функционал, но указывает на проблемы с производительностью при поиске."
+  },
+  {
+    "review_id": "r021",
+    "app_name": "FocusFlow",
+    "sentiment": "negative",
+    "issues": [
+      {
+        "category": "reliability",
+        "severity": 5,
+        "quote": "Два раза потерялись заметки после синхронизации",
+        "rationale": "Отзыв указывает на потерю заметок после синхронизации, что является проблемой надежности."
+      }
+    ],
+    "short_summary": "Потеря заметок после синхронизации подрывает доверие к приложению."
+  },
+  {
+    "review_id": "r022",
+    "app_name": "FocusFlow",
+    "sentiment": "positive",
+    "issues": [],
+    "short_summary": "Положительный отзыв о шаблонах задач и поддержке"
+  },
+  {
+    "review_id": "r023",
+    "app_name": "FocusFlow",
+    "sentiment": "negative",
+    "issues": [
+      {
+        "category": "price",
+        "severity": 4,
+        "quote": "цена подписки выросла слишком резко за последний месяц",
+        "rationale": "Пользователь явно указывает на резкое повышение цены подписки как на проблему."
+      }
+    ],
+    "short_summary": "Пользователь отмечает, что функций достаточно, но цена подписки резко выросла за последний месяц."
+  },
+  {
+    "review_id": "r024",
+    "app_name": "FocusFlow",
+    "sentiment": "negative",
+    "issues": [
+      {
+        "category": "reliability",
+        "severity": 3,
+        "quote": "надежность в регионах слабая",
+        "rationale": "Пользователь прямо указывает на слабую надежность приложения в некоторых регионах."
+      }
+    ],
+    "short_summary": "Приложение иногда требует VPN для открытия и ненадежно в некоторых регионах."
+  },
+  {
+    "review_id": "r025",
+    "app_name": "FocusFlow",
+    "sentiment": "positive",
+    "issues": [
+      {
+        "category": "performance",
+        "severity": 2,
+        "quote": "Хотелось бы улучшить скорость импорта задач",
+        "rationale": "Пользователь указывает на проблему с производительностью при импорте задач."
+      }
+    ],
+    "short_summary": "Пользователь хвалит дизайн, но отмечает медленный импорт задач."
+  },
+  {
+    "review_id": "r026",
+    "app_name": "FocusFlow",
+    "sentiment": "negative",
+    "issues": [
+      {
+        "category": "reliability",
+        "severity": 4,
+        "quote": "пару раз были внезапные вылеты после обновления",
+        "rationale": "Crashes are reliability issues that disrupt app usage."
+      }
+    ],
+    "short_summary": "User reports moderate ads but experiences crashes after update."
+  },
+  {
+    "review_id": "r027",
+    "app_name": "FocusFlow",
+    "sentiment": "negative",
+    "issues": [
+      {
+        "category": "support",
+        "severity": 5,
+        "quote": "Поддержка молчит уже четыре дня",
+        "rationale": "User complains that support has not responded for four days regarding a critical payment bug."
+      }
+    ],
+    "short_summary": "User reports that support has been silent for four days despite a critical payment bug."
+  },
+  {
+    "review_id": "r028",
+    "app_name": "FocusFlow",
+    "sentiment": "positive",
+    "issues": [],
+    "short_summary": "Быстрый отклик интерфейса, приятно пользоваться каждый день."
+  },
+  {
+    "review_id": "r029",
+    "app_name": "FocusFlow",
+    "sentiment": "positive",
+    "issues": [
+      {
+        "category": "ads",
+        "severity": 2,
+        "quote": "хотелось бы меньше экранов с upsell",
+        "rationale": "User wants fewer promotional upsell screens, which is related to ads category."
+      }
+    ],
+    "short_summary": "App is stable and reasonably priced, but user wants fewer upsell screens."
+  },
+  {
+    "review_id": "r030",
+    "app_name": "FocusFlow",
+    "sentiment": "negative",
+    "issues": [
+      {
+        "category": "reliability",
+        "severity": 5,
+        "quote": "После платежа подписка не активировалась",
+        "rationale": "Подписка не активировалась после оплаты, что указывает на сбой в работе сервиса."
+      },
+      {
+        "category": "support",
+        "severity": 4,
+        "quote": "поддержка перекидывает между отделами",
+        "rationale": "Пользователь жалуется на неэффективную поддержку, которая не решает проблему и переводит между отделами."
+      }
+    ],
+    "short_summary": "Негативный отзыв: после оплаты подписка не активировалась, поддержка не помогла."
+  },
+  {
+    "review_id": "r031",
+    "app_name": "FocusFlow",
+    "sentiment": "neutral",
+    "issues": [
+      {
+        "category": "design",
+        "severity": 2,
+        "quote": "дизайн карточек кажется устаревшим",
+        "rationale": "Пользователь прямо указывает на устаревший дизайн карточек как на проблему."
+      }
+    ],
+    "short_summary": "Дизайн карточек устарел, но приложение работает нормально."
+  },
+  {
+    "review_id": "r032",
+    "app_name": "FocusFlow",
+    "sentiment": "negative",
+    "issues": [
+      {
+        "category": "performance",
+        "severity": 4,
+        "quote": "Приложение стало заметно медленнее, особенно при загрузке истории задач.",
+        "rationale": "User reports the app has become noticeably slower, specifically when loading task history, which is a performance issue."
+      }
+    ],
+    "short_summary": "User reports the app has become noticeably slower, especially when loading task history."
+  },
+  {
+    "review_id": "r033",
+    "app_name": "FocusFlow",
+    "sentiment": "positive",
+    "issues": [],
+    "short_summary": "Support team responded quickly and effectively."
+  },
+  {
+    "review_id": "r034",
+    "app_name": "FocusFlow",
+    "sentiment": "positive",
+    "issues": [],
+    "short_summary": "Надежный сервис, синхронизация между устройствами без ошибок уже месяц."
+  },
+  {
+    "review_id": "r035",
+    "app_name": "FocusFlow",
+    "sentiment": "negative",
+    "issues": [
+      {
+        "category": "ads",
+        "severity": 4,
+        "quote": "Слишком много рекламных вставок",
+        "rationale": "Пользователь жалуется на чрезмерное количество рекламы, что приводит к удалению приложения."
+      }
+    ],
+    "short_summary": "Пользователь удаляет приложение из-за большого количества рекламы."
+  },
+  {
+    "review_id": "r036",
+    "app_name": "FocusFlow",
+    "sentiment": "positive",
+    "issues": [
+      {
+        "category": "performance",
+        "severity": 2,
+        "quote": "хотелось бы ускорить резервное копирование",
+        "rationale": "Пользователь упоминает желание ускорить резервное копирование, что указывает на проблему с производительностью данной функции."
+      }
+    ],
+    "short_summary": "Пользователь доволен балансом цены и возможностей, но хочет ускорения резервного копирования."
+  }
+]

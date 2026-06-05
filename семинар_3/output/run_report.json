@@ -1,0 +1,24 @@
+{
+  "model": "deepseek-v4-flash",
+  "input_count": 36,
+  "validation_errors": [],
+  "validation_error_count": 0,
+  "ghost_quotes_count": 0,
+  "ghost_quote_rate": 0.0,
+  "judge_overall_score": 0.9,
+  "usage": {
+    "prompt_tokens": 58062,
+    "completion_tokens": 31442,
+    "cache_hit_tokens": 36480,
+    "cache_miss_tokens": 21582
+  },
+  "cost_report": {
+    "baseline_input_cost_usd": 0.01567674,
+    "actual_input_cost_usd": 0.008380740000000001,
+    "output_cost_usd": 0.0345862,
+    "total_actual_cost_usd": 0.042966939999999995,
+    "savings_usd": 0.007296,
+    "cache_hit_rate": 0.6282938927353519
+  },
+  "elapsed_sec": 350.18923687934875
+}

@@ -1,0 +1,623 @@
+[
+  {
+    "review_id": "r001",
+    "aspects": [
+      {
+        "aspect": "performance",
+        "sentiment": "negative",
+        "confidence": 0.9,
+        "quote": "чуть быстрее открывать аналитику",
+        "score": -0.6
+      },
+      {
+        "aspect": "design",
+        "sentiment": "positive",
+        "confidence": 0.95,
+        "quote": "дизайн аккуратный",
+        "score": 0.8
+      }
+    ]
+  },
+  {
+    "review_id": "r002",
+    "aspects": [
+      {
+        "aspect": "performance",
+        "sentiment": "negative",
+        "confidence": 0.9,
+        "quote": "приложение подвисает на старте",
+        "score": -0.7
+      },
+      {
+        "aspect": "ads",
+        "sentiment": "negative",
+        "confidence": 0.9,
+        "quote": "реклама стала появляться слишком часто",
+        "score": -0.7
+      }
+    ]
+  },
+  {
+    "review_id": "r003",
+    "aspects": [
+      {
+        "aspect": "support",
+        "sentiment": "negative",
+        "confidence": 0.9,
+        "quote": "поддержка отвечает очень долго",
+        "score": -0.8
+      },
+      {
+        "aspect": "price",
+        "sentiment": "negative",
+        "confidence": 0.9,
+        "quote": "цена подписки кажется завышенной",
+        "score": -0.7
+      }
+    ]
+  },
+  {
+    "review_id": "r004",
+    "aspects": [
+      {
+        "aspect": "design",
+        "sentiment": "positive",
+        "confidence": 0.9,
+        "quote": "минималистичный интерфейс и виджеты",
+        "score": 0.7
+      },
+      {
+        "aspect": "reliability",
+        "sentiment": "negative",
+        "confidence": 0.9,
+        "quote": "теряются напоминания при слабом интернете",
+        "score": -0.6
+      }
+    ]
+  },
+  {
+    "review_id": "r005",
+    "aspects": [
+      {
+        "aspect": "support",
+        "sentiment": "negative",
+        "confidence": 0.95,
+        "quote": "служба поддержки не решила вопрос",
+        "score": -0.8
+      },
+      {
+        "aspect": "price",
+        "sentiment": "negative",
+        "confidence": 0.9,
+        "quote": "Оплата прошла два раза",
+        "score": -0.7
+      },
+      {
+        "aspect": "reliability",
+        "sentiment": "negative",
+        "confidence": 0.95,
+        "quote": "Надежность вызывает сомнения",
+        "score": -0.9
+      }
+    ]
+  },
+  {
+    "review_id": "r006",
+    "aspects": [
+      {
+        "aspect": "performance",
+        "sentiment": "positive",
+        "confidence": 0.95,
+        "quote": "Отличная производительность, даже на старом телефоне все работает быстро.",
+        "score": 0.9
+      },
+      {
+        "aspect": "price",
+        "sentiment": "positive",
+        "confidence": 0.9,
+        "quote": "Цена оправдана функциональностью.",
+        "score": 0.8
+      }
+    ]
+  },
+  {
+    "review_id": "r007",
+    "aspects": [
+      {
+        "aspect": "design",
+        "sentiment": "negative",
+        "confidence": 0.9,
+        "quote": "Интерфейс перегружен баннерами",
+        "score": -0.8
+      },
+      {
+        "aspect": "ads",
+        "sentiment": "negative",
+        "confidence": 0.95,
+        "quote": "из-за рекламы тяжело пользоваться бесплатной версией",
+        "score": -0.9
+      }
+    ]
+  },
+  {
+    "review_id": "r008",
+    "aspects": [
+      {
+        "aspect": "design",
+        "sentiment": "positive",
+        "confidence": 0.9,
+        "quote": "Красивый дизайн и темная тема",
+        "score": 0.8
+      },
+      {
+        "aspect": "reliability",
+        "sentiment": "negative",
+        "confidence": 0.85,
+        "quote": "синхронизация падает и данные появляются с задержкой",
+        "score": -0.7
+      }
+    ]
+  },
+  {
+    "review_id": "r009",
+    "aspects": [
+      {
+        "aspect": "performance",
+        "sentiment": "negative",
+        "confidence": 0.9,
+        "quote": "запуск долгий",
+        "score": -0.8
+      },
+      {
+        "aspect": "price",
+        "sentiment": "negative",
+        "confidence": 0.9,
+        "quote": "за базовые функции просят подписку",
+        "score": -0.7
+      }
+    ]
+  },
+  {
+    "review_id": "r010",
+    "aspects": [
+      {
+        "aspect": "support",
+        "sentiment": "positive",
+        "confidence": 0.95,
+        "quote": "Поддержка ответила в тот же день и помогла восстановить доступ",
+        "score": 0.9
+      }
+    ]
+  },
+  {
+    "review_id": "r011",
+    "aspects": [
+      {
+        "aspect": "performance",
+        "sentiment": "negative",
+        "confidence": 0.9,
+        "quote": "часто вылетает при открытии календаря",
+        "score": -0.8
+      },
+      {
+        "aspect": "reliability",
+        "sentiment": "negative",
+        "confidence": 0.95,
+        "quote": "надежность низкая",
+        "score": -0.9
+      }
+    ]
+  },
+  {
+    "review_id": "r012",
+    "aspects": [
+      {
+        "aspect": "design",
+        "sentiment": "positive",
+        "confidence": 0.9,
+        "quote": "Удобный интерфейс",
+        "score": 0.8
+      },
+      {
+        "aspect": "price",
+        "sentiment": "negative",
+        "confidence": 0.85,
+        "quote": "меньше платных ограничений",
+        "score": -0.7
+      }
+    ]
+  },
+  {
+    "review_id": "r013",
+    "aspects": [
+      {
+        "aspect": "support",
+        "sentiment": "negative",
+        "confidence": 0.9,
+        "quote": "Поддержка вежливая, но решение проблемы заняло почти неделю.",
+        "score": -0.5
+      }
+    ]
+  },
+  {
+    "review_id": "r014",
+    "aspects": [
+      {
+        "aspect": "ads",
+        "sentiment": "negative",
+        "confidence": 0.95,
+        "quote": "реклама не отключилась",
+        "score": -1.0
+      },
+      {
+        "aspect": "price",
+        "sentiment": "negative",
+        "confidence": 0.9,
+        "quote": "оплаты премиума",
+        "score": -0.9
+      }
+    ]
+  },
+  {
+    "review_id": "r015",
+    "aspects": [
+      {
+        "aspect": "performance",
+        "sentiment": "positive",
+        "confidence": 0.95,
+        "quote": "быстро",
+        "score": 0.8
+      },
+      {
+        "aspect": "reliability",
+        "sentiment": "positive",
+        "confidence": 0.95,
+        "quote": "стабильно",
+        "score": 0.8
+      },
+      {
+        "aspect": "design",
+        "sentiment": "positive",
+        "confidence": 0.95,
+        "quote": "дизайн нравится",
+        "score": 0.8
+      }
+    ]
+  },
+  {
+    "review_id": "r016",
+    "aspects": [
+      {
+        "aspect": "performance",
+        "sentiment": "negative",
+        "confidence": 0.9,
+        "quote": "Сервис медленный в час пик",
+        "score": -0.8
+      },
+      {
+        "aspect": "reliability",
+        "sentiment": "negative",
+        "confidence": 0.9,
+        "quote": "уведомления приходят с опозданием",
+        "score": -0.8
+      }
+    ]
+  },
+  {
+    "review_id": "r017",
+    "aspects": [
+      {
+        "aspect": "reliability",
+        "sentiment": "positive",
+        "confidence": 1.0,
+        "quote": "Прекрасная стабильность",
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "review_id": "r018",
+    "aspects": [
+      {
+        "aspect": "design",
+        "sentiment": "positive",
+        "confidence": 0.9,
+        "quote": "Дизайн приятный",
+        "score": 0.7
+      },
+      {
+        "aspect": "ads",
+        "sentiment": "negative",
+        "confidence": 0.9,
+        "quote": "реклама между экранами сбивает фокус",
+        "score": -0.7
+      }
+    ]
+  },
+  {
+    "review_id": "r019",
+    "aspects": [
+      {
+        "aspect": "support",
+        "sentiment": "negative",
+        "confidence": 1.0,
+        "quote": "Саппорт отвечает шаблонами, конкретной помощи почти нет.",
+        "score": -0.8
+      }
+    ]
+  },
+  {
+    "review_id": "r020",
+    "aspects": [
+      {
+        "aspect": "price",
+        "sentiment": "positive",
+        "confidence": 0.7,
+        "quote": "Нормальная цена",
+        "score": 0.5
+      },
+      {
+        "aspect": "performance",
+        "sentiment": "negative",
+        "confidence": 0.9,
+        "quote": "иногда приложение подтормаживает при поиске",
+        "score": -0.7
+      }
+    ]
+  },
+  {
+    "review_id": "r021",
+    "aspects": [
+      {
+        "aspect": "reliability",
+        "sentiment": "negative",
+        "confidence": 0.95,
+        "quote": "Два раза потерялись заметки после синхронизации",
+        "score": -1.0
+      }
+    ]
+  },
+  {
+    "review_id": "r022",
+    "aspects": [
+      {
+        "aspect": "design",
+        "sentiment": "positive",
+        "confidence": 0.9,
+        "quote": "Очень удобные шаблоны задач",
+        "score": 0.8
+      },
+      {
+        "aspect": "support",
+        "sentiment": "positive",
+        "confidence": 0.9,
+        "quote": "поддержка помогла перенести данные с другого сервиса",
+        "score": 0.8
+      }
+    ]
+  },
+  {
+    "review_id": "r023",
+    "aspects": [
+      {
+        "aspect": "price",
+        "sentiment": "negative",
+        "confidence": 0.95,
+        "quote": "цена подписки выросла слишком резко",
+        "score": -0.8
+      }
+    ]
+  },
+  {
+    "review_id": "r024",
+    "aspects": [
+      {
+        "aspect": "reliability",
+        "sentiment": "negative",
+        "confidence": 0.95,
+        "quote": "надежность в регионах слабая",
+        "score": -0.8
+      }
+    ]
+  },
+  {
+    "review_id": "r025",
+    "aspects": [
+      {
+        "aspect": "design",
+        "sentiment": "positive",
+        "confidence": 0.9,
+        "quote": "Интерфейс аккуратный, нравится типографика.",
+        "score": 0.8
+      },
+      {
+        "aspect": "performance",
+        "sentiment": "negative",
+        "confidence": 0.9,
+        "quote": "Хотелось бы улучшить скорость импорта задач.",
+        "score": -0.7
+      }
+    ]
+  },
+  {
+    "review_id": "r026",
+    "aspects": [
+      {
+        "aspect": "ads",
+        "sentiment": "positive",
+        "confidence": 0.9,
+        "quote": "Реклама умеренная",
+        "score": 0.5
+      },
+      {
+        "aspect": "reliability",
+        "sentiment": "negative",
+        "confidence": 0.95,
+        "quote": "пару раз были внезапные вылеты",
+        "score": -0.7
+      }
+    ]
+  },
+  {
+    "review_id": "r027",
+    "aspects": [
+      {
+        "aspect": "support",
+        "sentiment": "negative",
+        "confidence": 0.95,
+        "quote": "Поддержка молчит уже четыре дня",
+        "score": -1.0
+      },
+      {
+        "aspect": "reliability",
+        "sentiment": "negative",
+        "confidence": 0.9,
+        "quote": "баг с оплатой критичный",
+        "score": -0.8
+      }
+    ]
+  },
+  {
+    "review_id": "r028",
+    "aspects": [
+      {
+        "aspect": "performance",
+        "sentiment": "positive",
+        "confidence": 0.95,
+        "quote": "Очень быстрый отклик интерфейса",
+        "score": 1.0
+      },
+      {
+        "aspect": "design",
+        "sentiment": "positive",
+        "confidence": 0.9,
+        "quote": "приятно пользоваться",
+        "score": 0.8
+      }
+    ]
+  },
+  {
+    "review_id": "r029",
+    "aspects": [
+      {
+        "aspect": "performance",
+        "sentiment": "positive",
+        "confidence": 0.9,
+        "quote": "Стабильная работа",
+        "score": 0.8
+      },
+      {
+        "aspect": "price",
+        "sentiment": "positive",
+        "confidence": 0.85,
+        "quote": "внятная цена",
+        "score": 0.7
+      },
+      {
+        "aspect": "ads",
+        "sentiment": "negative",
+        "confidence": 0.8,
+        "quote": "меньше экранов с upsell",
+        "score": -0.6
+      }
+    ]
+  },
+  {
+    "review_id": "r030",
+    "aspects": [
+      {
+        "aspect": "support",
+        "sentiment": "negative",
+        "confidence": 0.9,
+        "quote": "поддержка перекидывает между отделами",
+        "score": -0.8
+      }
+    ]
+  },
+  {
+    "review_id": "r031",
+    "aspects": [
+      {
+        "aspect": "performance",
+        "sentiment": "neutral",
+        "confidence": 0.6,
+        "quote": "Нормально работает",
+        "score": 0.0
+      },
+      {
+        "aspect": "design",
+        "sentiment": "negative",
+        "confidence": 0.8,
+        "quote": "дизайн карточек кажется устаревшим",
+        "score": -0.7
+      }
+    ]
+  },
+  {
+    "review_id": "r032",
+    "aspects": [
+      {
+        "aspect": "performance",
+        "sentiment": "negative",
+        "confidence": 0.95,
+        "quote": "заметно медленнее",
+        "score": -0.7
+      }
+    ]
+  },
+  {
+    "review_id": "r033",
+    "aspects": [
+      {
+        "aspect": "support",
+        "sentiment": "positive",
+        "confidence": 0.95,
+        "quote": "Поддержка отработала быстро и по делу",
+        "score": 0.9
+      }
+    ]
+  },
+  {
+    "review_id": "r034",
+    "aspects": [
+      {
+        "aspect": "reliability",
+        "sentiment": "positive",
+        "confidence": 0.95,
+        "quote": "синхронизация между устройствами без ошибок",
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "review_id": "r035",
+    "aspects": [
+      {
+        "aspect": "ads",
+        "sentiment": "negative",
+        "confidence": 0.95,
+        "quote": "Слишком много рекламных вставок",
+        "score": -1.0
+      }
+    ]
+  },
+  {
+    "review_id": "r036",
+    "aspects": [
+      {
+        "aspect": "price",
+        "sentiment": "positive",
+        "confidence": 0.9,
+        "quote": "Хороший баланс цены и возможностей",
+        "score": 0.7
+      },
+      {
+        "aspect": "performance",
+        "sentiment": "negative",
+        "confidence": 0.8,
+        "quote": "хотелось бы ускорить резервное копирование",
+        "score": -0.6
+      }
+    ]
+  }
+]

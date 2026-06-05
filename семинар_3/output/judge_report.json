@@ -1,0 +1,56 @@
+{
+  "verdicts": [
+    {
+      "action": "Optimize app performance and stability, focusing on startup speed, search, and importing tasks.",
+      "support": "supported",
+      "evidence": [
+        "приложение подвисает на старте",
+        "подтормаживает при поиске",
+        "Хотелось бы улучшить скорость импорта задач"
+      ],
+      "comment": "Multiple reviews explicitly mention slow startup, sluggish search, and import issues, along with stability problems like crashes and data loss."
+    },
+    {
+      "action": "Reduce ad frequency or ensure premium users have ads fully removed; consider a cheaper ad-free option.",
+      "support": "weakly_supported",
+      "evidence": [
+        "реклама стала появляться слишком часто",
+        "После оплаты премиума реклама не отключилась",
+        "Цена подписки кажется завышенной"
+      ],
+      "comment": "Strong evidence for ad frequency and ads not being removed for premium users, but the request for a cheaper ad-free option is only weakly inferred from price complaints."
+    },
+    {
+      "action": "Fix subscription billing errors and improve transparency in pricing to prevent double charges.",
+      "support": "supported",
+      "evidence": [
+        "Оплата прошла два раза",
+        "После платежа подписка не активировалась",
+        "Цена подписки выросла слишком резко"
+      ],
+      "comment": "Direct reports of double billing and subscription activation failures, plus complaints about price increases support improving pricing transparency."
+    },
+    {
+      "action": "Improve customer support by reducing response times and providing personalized, non-template solutions.",
+      "support": "supported",
+      "evidence": [
+        "поддержка отвечает очень долго",
+        "Саппорт отвечает шаблонами, конкретной помощи почти нет.",
+        "Поддержка молчит уже четыре дня"
+      ],
+      "comment": "Several reviews highlight long wait times, template responses, and lack of concrete help, indicating clear need for improvement."
+    },
+    {
+      "action": "Enhance data synchronization reliability and backup speed to prevent data loss.",
+      "support": "supported",
+      "evidence": [
+        "иногда теряются напоминания при слабом интернете",
+        "Два раза потерялись заметки после синхронизации",
+        "Приложение часто вылетает при открытии календаря"
+      ],
+      "comment": "Reports of lost data due to sync failures and crashes directly support the need for more reliable synchronization and backup speed."
+    }
+  ],
+  "overall_score": 0.9,
+  "summary": "All five action items are well-supported by user reviews. Performance, ad issues, billing errors, customer support, and synchronization reliability are clearly documented. Minor weaknesses exist in the explicit justification for a cheaper ad-free option and pricing transparency, but the core problems are strongly evidenced."
+}
