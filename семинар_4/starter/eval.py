@@ -9,17 +9,19 @@ Eval по 10 gold-вопросам. Метрика: hit-rate@5 на уровне
     python eval.py --naive         # прогнать текущую конфигурацию pipeline.py
 """
 
-import argparse
 import json
 from pathlib import Path
 
 from pipeline import collection, hybrid_retrieve, retrieve
 
-GOLD_PATH = Path(__file__).parent / "data" / "gold.json"
+DEFAULT_GOLD_PATH = Path(__file__).parent / "data" / "gold_homework.json"
+EVAL_K = 5
+EVAL_DENSE_ONLY = False
+EVAL_VERBOSE = True
 
 
-def load_gold() -> list[dict]:
-    return json.loads(GOLD_PATH.read_text(encoding="utf-8"))
+def load_gold(path: Path) -> list[dict]:
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def hit_rate(retrieved_ids: list[str], gold_sources: list[str]) -> float:
@@ -33,16 +35,17 @@ def hit_rate(retrieved_ids: list[str], gold_sources: list[str]) -> float:
     return len(found) / len(gold_sources)
 
 
-def dense_only_retrieve(query: str, k: int = 5) -> dict:
-    return collection.query(query_texts=[query], n_results=k)
-
-
-def run(dense_only: bool = False, k: int = 5, verbose: bool = True) -> dict:
-    gold = load_gold()
+def run(
+    gold_path: Path = DEFAULT_GOLD_PATH,
+    dense_only: bool = False,
+    k: int = 5,
+    verbose: bool = True,
+) -> dict:
+    gold = load_gold(gold_path)
     total = 0.0
     results = []
 
-    fn = dense_only_retrieve if dense_only else hybrid_retrieve
+    fn = retrieve if dense_only else hybrid_retrieve
     label = "DENSE-ONLY" if dense_only else "HYBRID (DENSE + BM25 + RRF)"
     print(f"\n==={label}===\n")
 
@@ -81,18 +84,17 @@ def run(dense_only: bool = False, k: int = 5, verbose: bool = True) -> dict:
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--dense-only", action="store_true")
-    parser.add_argument("--k", type=int, default=5)
-    parser.add_argument("--quiet", action="store_true")
-    args = parser.parse_args()
-
     # Проверка, что заполнили коллекцию
     if collection.count() == 0:
-        print("⚠ Коллекция пустая. Запусти: python pipeline.py ingest")
+        print("⚠ Коллекция пустая. Запусти: python pipeline.py ingest ...")
         return
 
-    run(k=args.k, verbose=not args.quiet)
+    run(
+        gold_path=DEFAULT_GOLD_PATH,
+        dense_only=EVAL_DENSE_ONLY,
+        k=EVAL_K,
+        verbose=EVAL_VERBOSE,
+    )
 
 
 if __name__ == "__main__":

@@ -12,7 +12,6 @@ TODO для семинара:
 """
 
 import json
-import os
 import re
 import sys
 import time
@@ -44,12 +43,18 @@ collection = chroma.get_or_create_collection(
 )
 
 DATA_DIR = Path(__file__).parent / "data"
+DATA_GLOB_PATTERN = "lecture_10min_*.txt"
 BM25_CACHE = Path(__file__).parent / "bm25_cache.json"
 
+# Конфигурация индексации (без CLI-параметров)
+CHUNK_STRATEGY = "recursive"  # "fixed" | "recursive"
+FIXED_CHUNK_SIZE = 2000
+RECURSIVE_CHUNK_SIZE = 400
+RECURSIVE_OVERLAP = 80
 
-splitter = RecursiveCharacterTextSplitter(
-    chunk_size=512, chunk_overlap=80, separators=["\n\n", "\n", ". ", "? ", "! ", " "]
-)
+# Конфигурация поиска
+ASK_TOP_K = 15
+ASK_DENSE_ONLY = False
 
 
 def tokenize_ru(text: str):
@@ -57,13 +62,20 @@ def tokenize_ru(text: str):
     return re.findall(r"[а-яa-z0-9ё-]{2,}", text.lower())
 
 
-def chunk_text(text: str):
+def chunk_text_recursive(
+    text: str, chunk_size: int = 400, chunk_overlap: int = 80
+) -> list[str]:
     "Разбивка текста на кусочки рекурсивным сплиттером"
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=chunk_size,
+        chunk_overlap=chunk_overlap,
+        separators=["\n\n", "\n", ". ", "? ", "! ", " "],
+    )
     return [c.strip() for c in splitter.split_text(text) if c.strip()]
 
 
 # фиксированный чанкинг по символам
-def chunk_text_naive(text: str, chunk_size: int = 2000) -> list[str]:
+def chunk_text_fixed(text: str, chunk_size: int = 2000) -> list[str]:
     """
     Примитивная нарезка: рубим каждые N символов.
     Проблема: граница может попасть в середину фразы «я ругался на |
@@ -72,8 +84,32 @@ def chunk_text_naive(text: str, chunk_size: int = 2000) -> list[str]:
     return [text[i : i + chunk_size] for i in range(0, len(text), chunk_size)]
 
 
+def _chunk_text(
+    text: str,
+    strategy: str = "recursive",
+    fixed_chunk_size: int = 2000,
+    recursive_chunk_size: int = 400,
+    recursive_overlap: int = 80,
+) -> list[str]:
+    if strategy == "fixed":
+        return chunk_text_fixed(text, chunk_size=fixed_chunk_size)
+    if strategy == "recursive":
+        return chunk_text_recursive(
+            text,
+            chunk_size=recursive_chunk_size,
+            chunk_overlap=recursive_overlap,
+        )
+    raise ValueError(f"Неизвестная стратегия чанкинга: {strategy}")
+
+
 # заполнение векторного хранилища: читаем data/, режем, кладём в ChromaDB
-def ingest():
+def ingest(
+    data_dir: Path = DATA_DIR,
+    strategy: str = CHUNK_STRATEGY,
+    fixed_chunk_size: int = FIXED_CHUNK_SIZE,
+    recursive_chunk_size: int = RECURSIVE_CHUNK_SIZE,
+    recursive_overlap: int = RECURSIVE_OVERLAP,
+):
     # Чистим старую коллекцию перед переиндексацией
     existing = collection.get()
     if existing["ids"]:
@@ -83,15 +119,25 @@ def ingest():
     all_ids = []
     all_meta = []
 
-    for f in sorted(DATA_DIR.glob("*.txt")):
+    files = sorted(data_dir.glob(DATA_GLOB_PATTERN))
+    if not files:
+        raise RuntimeError(f"В директории нет .txt документов: {data_dir}")
+
+    for f in files:
         text = f.read_text(encoding="utf-8")
-        chunks = chunk_text(text)
+        chunks = _chunk_text(
+            text,
+            strategy=strategy,
+            fixed_chunk_size=fixed_chunk_size,
+            recursive_chunk_size=recursive_chunk_size,
+            recursive_overlap=recursive_overlap,
+        )
 
         for i, c in enumerate(chunks):
             cid = f"{f.stem}__{i}"
             all_chunks.append(c)
             all_ids.append(cid)
-            all_meta.append({"source": f.stem, "chunk_id": i})
+            all_meta.append({"source": f.stem, "chunk_id": i, "strategy": strategy})
 
         print(f"  {f.stem}: {len(chunks)} чанков")
 
@@ -106,8 +152,9 @@ def ingest():
 
     total = collection.count()
     print(
-        f"\nИндексировано: Dense — {total} чанков из {len(list(DATA_DIR.glob('*.txt')))} файлов"
+        f"\nИндексировано: Dense — {total} чанков из {len(files)} файлов"
     )
+    print(f"Стратегия чанкинга: {strategy}")
     print(f"\nBM25 — {len(all_ids)} чанков кэшировано в {BM25_CACHE.name}")
 
 
@@ -180,11 +227,11 @@ def build_prompt(query: str, hits: dict) -> str:
     )
 
 
-def ask(query: str):
+def ask(query: str, k: int = 15, dense_only: bool = False):
     # Эмбеддим запрос и ищем топ-5 в Chroma.
     print("Поиск по базе...", flush=True)
     t0 = time.time()
-    hits = hybrid_retrieve(query, k=15)
+    hits = retrieve(query, k=k) if dense_only else hybrid_retrieve(query, k=k)
     found = hits["ids"][0]
     print(
         f"   нашёл {len(found)} чанков за {time.time() - t0:.1f}с: {', '.join(found)}",
@@ -219,12 +266,18 @@ if __name__ == "__main__":
 
     cmd = sys.argv[1]
     if cmd == "ingest":
-        ingest()
+        ingest(
+            data_dir=DATA_DIR,
+            strategy=CHUNK_STRATEGY,
+            fixed_chunk_size=FIXED_CHUNK_SIZE,
+            recursive_chunk_size=RECURSIVE_CHUNK_SIZE,
+            recursive_overlap=RECURSIVE_OVERLAP,
+        )
     elif cmd == "ask":
         if len(sys.argv) < 3:
             print('Нужен вопрос: python pipeline.py ask "..."')
             sys.exit(1)
-        ask(sys.argv[2])
+        ask(sys.argv[2], k=ASK_TOP_K, dense_only=ASK_DENSE_ONLY)
     else:
         print(f"Неизвестная команда: {cmd}")
         sys.exit(1)
