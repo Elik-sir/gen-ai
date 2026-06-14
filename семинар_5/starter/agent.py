@@ -21,6 +21,7 @@ import argparse
 import datetime
 import json
 import sys
+import uuid
 from concurrent.futures import ThreadPoolExecutor
 from json.decoder import JSONDecodeError
 from pathlib import Path
@@ -32,7 +33,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from llm_client import get_model, make_client, make_raw_client
 from schemas import TOOL_SCHEMAS
-from tools import calculate, get_fx_rate, get_inflation, get_key_rate, get_unemployment
+from tools import (
+    calculate,
+    compare_periods,
+    get_fx_rate,
+    get_inflation,
+    get_key_rate,
+    get_unemployment,
+)
 
 # набор инструментов
 TOOLS_IMPL = {
@@ -40,6 +48,7 @@ TOOLS_IMPL = {
     "get_key_rate": get_key_rate,
     "get_inflation": get_inflation,
     "get_unemployment": get_unemployment,
+    "compare_periods": compare_periods,
     "calculate": calculate,
 }
 
@@ -104,6 +113,7 @@ _BASE_RULES = """\
 - get_key_rate: ключевая ставка Цб на дату
 - get_inflation: ИПЦ (% г/г) на конец месяца
 - get_unemployment: безработица (% рабочей силы) на конец месяца
+- compare_periods: сравнение одной метрики между двумя периодами (delta и ratio)
 - calculate: безопасный калькулятор для арифметики над полученными числами
 
 Алгоритм:
@@ -115,12 +125,14 @@ _BASE_RULES = """\
 5. Индекс нищеты = инфляция г/г + безработица.
 6. Кросс-курс «сколько B за 1 A» = (рублей за 1 A) / (рублей за 1 B).
    Пример: «юаней за доллар» = (рублей за доллар) / (рублей за юань).
+7. Для вопросов «сравни между периодами» и «во сколько раз выросло» сначала
+   используй compare_periods, а не ручную цепочку вызовов.
 """
 
 SYSTEM_PROMPT = (
     _BASE_RULES
     + """\
-7. Когда данных достаточно — выдай финальный ответ обычным текстом бЕЗ вызовов
+8. Когда данных достаточно — выдай финальный ответ обычным текстом бЕЗ вызовов
    инструментов. Одна-две фразы, с числами и единицами. Если число из
    fallback_csv — оговорись, что Цб в моменте недоступен.
 Формат даты — YYYY-MM-DD.
@@ -131,7 +143,7 @@ SYSTEM_PROMPT = (
 SYSTEM_PROMPT_PRO = (
     _BASE_RULES
     + """\
-7. Когда данных достаточно — НЕ пиши текст, а вызови submit_answer со структурой
+8. Когда данных достаточно — НЕ пиши текст, а вызови submit_answer со структурой
    (answer, value, unit, sources, confidence).
 Формат даты — YYYY-MM-DD.
 """
@@ -249,6 +261,7 @@ def run_agent(
     use_critic: bool = False,
     use_cache: bool = False,
     track_cost: bool = False,
+    trace_path: Path | None = None,
     verbose: bool = True,
 ) -> dict[str, Any]:
     """ReAct-цикл. базовый режим — финал текстом; флаги включают блоки 6-10."""
@@ -262,6 +275,8 @@ def run_agent(
         {"role": "user", "content": user_query},
     ]
     trace: list[dict[str, Any]] = []
+    run_id = str(uuid.uuid4())
+    trace_path = trace_path or (Path(__file__).parent / "trace.jsonl")
     usage_log: list[dict[str, Any]] = []  # блок 10 — токены по шагам
 
     for step in range(1, max_iter + 1):
@@ -295,6 +310,14 @@ def run_agent(
 
         if not msg.tool_calls:
             trace.append({"step": step, "final": msg.content})
+            with open(trace_path, "a", encoding="utf-8") as f:
+                for event in trace:
+                    rec = {
+                        "run_id": run_id,
+                        "ts": datetime.datetime.now().isoformat(timespec="seconds"),
+                        **event,
+                    }
+                    f.write(json.dumps(rec, ensure_ascii=False) + "\n")
             return _finish(
                 {
                     "answer": msg.content,
@@ -366,6 +389,15 @@ def run_agent(
             messages.append(
                 {"role": "tool", "tool_call_id": submit.id, "content": "ответ принят"}
             )
+            trace.append({"step": step, "final": ans.answer})
+            with open(trace_path, "a", encoding="utf-8") as f:
+                for event in trace:
+                    rec = {
+                        "run_id": run_id,
+                        "ts": datetime.datetime.now().isoformat(timespec="seconds"),
+                        **event,
+                    }
+                    f.write(json.dumps(rec, ensure_ascii=False) + "\n")
             return _finish(
                 {
                     "answer": ans.answer,
@@ -379,6 +411,15 @@ def run_agent(
                 verbose=verbose,
             )
 
+    trace.append({"step": max_iter, "final": f"ERROR: исчерпан лимит шагов max_iter={max_iter}"})
+    with open(trace_path, "a", encoding="utf-8") as f:
+        for event in trace:
+            rec = {
+                "run_id": run_id,
+                "ts": datetime.datetime.now().isoformat(timespec="seconds"),
+                **event,
+            }
+            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
     return _finish(
         {
             "answer": None,
@@ -424,7 +465,12 @@ def main():
         action="store_true",
         help="блок 10: показать токены и стоимость по шагам",
     )
-    ap.add_argument("--trace", type=Path, default=None, help="Куда сохранить JSON-лог")
+    ap.add_argument(
+        "--trace",
+        type=Path,
+        default=Path(__file__).parent / "trace.jsonl",
+        help="Куда сохранить JSONL-лог шагов (append).",
+    )
     a = ap.parse_args()
 
     q = " ".join(a.query)
@@ -437,6 +483,7 @@ def main():
         use_critic=a.critic,
         use_cache=a.cache,
         track_cost=a.cost,
+        trace_path=a.trace,
     )
 
     print("\n=== ВОПРОС ===")

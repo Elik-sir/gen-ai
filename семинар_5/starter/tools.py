@@ -20,6 +20,7 @@ import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import date as _date
 from datetime import datetime
+from calendar import monthrange
 from pathlib import Path
 
 import sympy  # noqa: F401  (пригодится в calculate)
@@ -289,3 +290,102 @@ def calculate(expression: str) -> dict:
         return {"expression": expression, "result": round(val, 6)}
     except Exception as e:
         return {"error": f"{type(e).__name__}: {e}"}
+
+
+def _parse_period(s: str) -> tuple[_date, str]:
+    """
+    Поддерживаем:
+      - YYYY-MM-DD (точная дата)
+      - YYYY-MM (месячный период)
+    """
+    if not isinstance(s, str):
+        raise ValueError("period должен быть строкой")
+
+    if re.fullmatch(r"\d{4}-\d{2}-\d{2}", s):
+        d = datetime.strptime(s, "%Y-%m-%d").date()
+        return d, "day"
+
+    if re.fullmatch(r"\d{4}-\d{2}", s):
+        year, month = map(int, s.split("-"))
+        if not (1 <= month <= 12):
+            raise ValueError(f"месяц вне диапазона 1..12: {s}")
+        return _date(year, month, 1), "month"
+
+    raise ValueError(f"неподдерживаемый формат периода: {s}")
+
+
+def _pick_metric_value(metric: str, period: str) -> dict:
+    d, granularity = _parse_period(period)
+
+    if metric == "key_rate":
+        r = get_key_rate(d.isoformat())
+        if "error" in r:
+            return r
+        return {
+            "date": r.get("date", d.isoformat()),
+            "value": r["rate"],
+            "source": r.get("source", "unknown"),
+        }
+
+    if metric.startswith("fx_"):
+        currency = metric.split("_", 1)[1]
+        r = get_fx_rate(currency=currency, on_date=d.isoformat())
+        if "error" in r:
+            return r
+        return {
+            "date": r.get("date", d.isoformat()),
+            "value": r["rate"],
+            "source": r.get("source", "unknown"),
+        }
+
+    if metric in {"cpi", "unemployment"}:
+        year, month = d.year, d.month
+        if metric == "cpi":
+            r = get_inflation(year=year, month=month)
+            value_key = "cpi_yoy"
+        else:
+            r = get_unemployment(year=year, month=month)
+            value_key = "unemployment"
+        if "error" in r:
+            return r
+        if granularity == "month":
+            last_day = monthrange(year, month)[1]
+            out_date = _date(year, month, last_day).isoformat()
+        else:
+            out_date = d.isoformat()
+        return {
+            "date": out_date,
+            "value": r[value_key],
+            "source": r.get("source", "unknown"),
+        }
+
+    return {"error": f"неподдерживаемая метрика: {metric}"}
+
+
+def compare_periods(metric: str, period_a: str, period_b: str) -> dict:
+    """
+    Сравнить значение метрики в двух периодах.
+    """
+    allowed = {"key_rate", "fx_USD", "fx_EUR", "fx_CNY", "cpi", "unemployment"}
+    if metric not in allowed:
+        return {"error": f"metric должен быть одним из {sorted(allowed)}"}
+
+    a = _pick_metric_value(metric, period_a)
+    if "error" in a:
+        return {"error": f"period_a: {a['error']}"}
+
+    b = _pick_metric_value(metric, period_b)
+    if "error" in b:
+        return {"error": f"period_b: {b['error']}"}
+
+    av = float(a["value"])
+    bv = float(b["value"])
+    ratio = None if av == 0 else round(bv / av, 6)
+    return {
+        "metric": metric,
+        "a": {"date": a["date"], "value": av},
+        "b": {"date": b["date"], "value": bv},
+        "delta": round(bv - av, 6),
+        "ratio": ratio,
+        "source": f"{a['source']}|{b['source']}",
+    }

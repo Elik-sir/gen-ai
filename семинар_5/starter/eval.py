@@ -1,5 +1,5 @@
 """
-Мини-оценка: 4 вопроса, проверяем:
+Мини-оценка: 10 вопросов, проверяем:
 1. Что агент завершает работу за разумное число шагов.
 2. Что в трассе шагов есть ожидаемые инструменты.
 3. Что в финальном ответе упомянуты ожидаемые ключевые числа (опционально).
@@ -44,7 +44,54 @@ CASES = [
         "must_have": ["год"],
         "comment": "Вычисление с формулой: 72 / ставка = годы.",
     },
+    {
+        "id": 5,
+        "query": "Во сколько раз вырос курс USD с января 2022 по апрель 2026?",
+        "expected_tools": ["compare_periods"],
+        "must_have": ["раз"],
+        "comment": "Проверка нового инструмента compare_periods на основном сценарии домашки.",
+    },
+    {
+        "id": 6,
+        "query": "Сравни ключевую ставку в 2022-02 и в 2026-04: на сколько процентных пункта изменилась?",
+        "expected_tools": ["compare_periods"],
+        "must_have": [],
+        "comment": "Второй обязательный кейс с compare_periods.",
+    },
+    {
+        "id": 7,
+        "query": "Что сейчас выше: ключевая ставка или индекс нищеты (инфляция + безработица)?",
+        "expected_tools": ["get_key_rate", "get_inflation", "get_unemployment", "calculate"],
+        "must_have": [],
+        "comment": "Реальный макро-вопрос: сравнение денежно-кредитного и социального индикаторов.",
+    },
+    {
+        "id": 8,
+        "query": "Какова реальная доходность годового вклада под ключевую ставку с поправкой на инфляцию?",
+        "expected_tools": ["get_key_rate", "get_inflation", "calculate"],
+        "must_have": ["%"],
+        "comment": "Реальный макро-вопрос: приближённая реальная доходность.",
+    },
+    {
+        "id": 9,
+        "query": "Сколько юаней за доллар по кросс-курсу ЦБ сегодня?",
+        "expected_tools": ["get_fx_rate", "calculate"],
+        "must_have": [],
+        "comment": "Трудный кейс: легко перепутать порядок деления USD/CNY и единицы результата.",
+    },
+    {
+        "id": 10,
+        "query": "Сравни инфляцию за 2024-02 и 2024-03 и безработицу за те же месяцы: где изменение сильнее в относительных терминах?",
+        "expected_tools": ["compare_periods"],
+        "must_have": [],
+        "comment": "Трудный кейс: сразу две метрики и относительное сравнение, возможна путаница в логике.",
+    },
 ]
+
+
+def _safe_console(text: str) -> str:
+    # В Windows-консоли cp1251 не все символы печатаются (например, ₽).
+    return text.encode("cp1251", errors="replace").decode("cp1251", errors="replace")
 
 
 def run_case(case: dict, *, use_cache: bool = False, track_cost: bool = False) -> dict:
@@ -63,13 +110,19 @@ def run_case(case: dict, *, use_cache: bool = False, track_cost: bool = False) -
     text_match = all(s.lower() in answer.lower() for s in case["must_have"])
     ok = bool(answer) and tool_match and text_match
 
-    print(f"\n  tools used : {used_tools}")
+    print(_safe_console(f"\n  tools used : {used_tools}"))
     print(
-        f"  expected    : {case['expected_tools']}  → {'OK' if tool_match else 'MISS'}"
+        _safe_console(
+            f"  expected    : {case['expected_tools']}  -> {'OK' if tool_match else 'MISS'}"
+        )
     )
-    print(f"  answer      : {answer[:200]}")
-    print(f"  must_have   : {case['must_have']}  → {'OK' if text_match else 'MISS'}")
-    print(f"  verdict     : {'PASS' if ok else 'FAIL'}")
+    print(_safe_console(f"  answer      : {answer[:200]}"))
+    print(
+        _safe_console(
+            f"  must_have   : {case['must_have']}  -> {'OK' if text_match else 'MISS'}"
+        )
+    )
+    print(_safe_console(f"  verdict     : {'PASS' if ok else 'FAIL'}"))
 
     return {
         "id": case["id"],
@@ -103,21 +156,23 @@ def main():
     results = [run_case(c, use_cache=a.cache, track_cost=a.cost) for c in CASES]
     passed = sum(1 for r in results if r["ok"])
 
-    print(f"\n{'=' * 70}\nИтого: {passed}/{len(CASES)} пройдено")
+    print(_safe_console(f"\n{'=' * 70}\nИтого: {passed}/{len(CASES)} пройдено"))
     for r in results:
         mark = "[OK]  " if r["ok"] else "[FAIL]"
-        print(f"  {mark} Q{r['id']} ({r['steps']} шагов) — {r['query'][:60]}")
+        print(_safe_console(f"  {mark} Q{r['id']} ({r['steps']} шагов) - {r['query'][:60]}"))
 
     if a.cache:
         h, m = CACHE_STATS["hits"], CACHE_STATS["misses"]
         print(
-            f"\n[кэш] на {len(CASES)} вопросах: {h} попаданий из {h + m} обращений "
-            f"к инструментам — столько вызовов ЦБ/Росстата сэкономлено."
+            _safe_console(
+                f"\n[кэш] на {len(CASES)} вопросах: {h} попаданий из {h + m} обращений "
+                f"к инструментам - столько вызовов ЦБ/Росстата сэкономлено."
+            )
         )
 
     out = Path(__file__).parent / "eval_results.json"
     out.write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"\nРезультаты: {out}")
+    print(_safe_console(f"\nРезультаты: {out}"))
 
 
 if __name__ == "__main__":

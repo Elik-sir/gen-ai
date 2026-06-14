@@ -124,4 +124,41 @@ TOOL_SCHEMAS = [
             },
         },
     },
+    {
+        "type": "function",
+        "function": {
+            "name": "compare_periods",
+            "description": (
+                "Сравнить одну метрику между двумя периодами и вернуть разницу "
+                "и отношение (во сколько раз изменилось). Использовать для "
+                "вопросов вида 'сравни X между A и B' или 'во сколько раз выросло'."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "metric": {
+                        "type": "string",
+                        "enum": [
+                            "key_rate",
+                            "fx_USD",
+                            "fx_EUR",
+                            "fx_CNY",
+                            "cpi",
+                            "unemployment",
+                        ],
+                        "description": "Какую метрику сравнить между периодами.",
+                    },
+                    "period_a": {
+                        "type": "string",
+                        "description": "Первый период: YYYY-MM или YYYY-MM-DD.",
+                    },
+                    "period_b": {
+                        "type": "string",
+                        "description": "Второй период: YYYY-MM или YYYY-MM-DD.",
+                    },
+                },
+                "required": ["metric", "period_a", "period_b"],
+            },
+        },
+    },
 ]
