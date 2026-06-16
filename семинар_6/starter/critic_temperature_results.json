@@ -1,0 +1,57 @@
+[
+  {
+    "case": "арифметика без calculate",
+    "t_0.0": {
+      "false_accepts": 0,
+      "runs": 10
+    },
+    "t_0.7": {
+      "false_accepts": 0,
+      "runs": 10
+    }
+  },
+  {
+    "case": "выдуманное число",
+    "t_0.0": {
+      "false_accepts": 4,
+      "runs": 10
+    },
+    "t_0.7": {
+      "false_accepts": 4,
+      "runs": 10
+    }
+  },
+  {
+    "case": "несогласованные подвопросы",
+    "t_0.0": {
+      "false_accepts": 0,
+      "runs": 10
+    },
+    "t_0.7": {
+      "false_accepts": 0,
+      "runs": 10
+    }
+  },
+  {
+    "case": "ошибка в одном из ответов",
+    "t_0.0": {
+      "false_accepts": 0,
+      "runs": 10
+    },
+    "t_0.7": {
+      "false_accepts": 0,
+      "runs": 10
+    }
+  },
+  {
+    "case": "неполное покрытие вопроса",
+    "t_0.0": {
+      "false_accepts": 0,
+      "runs": 10
+    },
+    "t_0.7": {
+      "false_accepts": 0,
+      "runs": 10
+    }
+  }
+]

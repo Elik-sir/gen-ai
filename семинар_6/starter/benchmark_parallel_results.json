@@ -1,0 +1,20 @@
+[
+  {
+    "id": "Q1",
+    "query": "Во сколько раз USD подорожал с 1 января 2022 по сегодня?",
+    "sequential_sec": 60.323,
+    "parallel_sec": 26.533,
+    "speedup_x": 2.274,
+    "sequential_ok": true,
+    "parallel_ok": true
+  },
+  {
+    "id": "Q5",
+    "query": "Как изменился рубль к USD, EUR и CNY с 1 января 2022 по сегодня, и какая из валют изменилась сильнее всего?",
+    "sequential_sec": 84.257,
+    "parallel_sec": 202.96,
+    "speedup_x": 0.415,
+    "sequential_ok": true,
+    "parallel_ok": true
+  }
+]
