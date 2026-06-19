@@ -1,0 +1,363 @@
+# Создаем простую систему RAG на Python
+
+Источник: https://habr.com/ru/companies/otus/articles/979458/
+ID: habr_rag_python
+
+---
+
+Представьте, что вы предоставляете своему ИИ конкретные релевантные документы (или фрагменты), которые он может быстро просмотреть, чтобы найти необходимую информацию, прежде чем ответить на ваши вопросы. То есть, вместо поиска по всей базе данных (которая может не поместиться в контекстное окно модели LLM, или даже если поместится, это потребует много токенов для ответов), мы предоставляем LLM только релевантные документы (фрагменты), которые ему необходимо найти, чтобы ответить на вопрос пользователя.
+Для того, чтобы решить эту проблему, мы построим простую систему RAG (Retrieval-Augmented Generation) – в которой генеративная языковая модель (LLM) получает доступ к внешним источникам информации для улучшения точности и достоверности ответов. То есть, вместо того чтобы использовать только внутренние знания модели, RAG будет обращаться к внешним источникам: базам данных, текстовым архивам и другим.
+Понимание RAG: общая картина
+Представьте себе такую ​​ситуацию. Вы спрашиваете ИИ о квантовой физике, но он был обучен несколько месяцев назад. Он может дать вам устаревшую информацию или сделать обоснованные предположения. Теперь представьте ту же модель ИИ, но на этот раз она может перед ответом просмотреть актуальные научные статьи. Гораздо лучше, правда?
+Это RAG в действии. Вот как это работает:
+Вы задаете вопрос о своем документе
+Система ищет релевантные фрагменты в вашем документе
+Она находит наиболее релевантные части, используя интеллектуальное сопоставление по сходству
+ИИ читает эти части и формирует ответ на основе найденной информации
+Вы получаете точный, обоснованный ответ с указанием источников
+Блок-схема простого приложения RAG
+Возникает резонный вопрос: почему бы просто не передать ИИ весь документ целиком?
+Отличный вопрос! Вот несколько причин, почему разбиение на фрагменты работает лучше:
+Ограничения по токенам: модели ИИ могут обрабатывать только определённое количество текста за раз.
+Стоимость: обработка меньших фрагментов обходится дешевле, чем обработка целых документов.
+Фокусировка: ИИ концентрируется на релевантной информации, а не отвлекается.
+Скорость: поиск конкретных фрагментов в первую очередь происходит гораздо быстрее.
+Настройка среды
+Прежде чем начать кодирование, давайте подготовим все необходимые инструменты. Вам понадобятся следующие библиотеки, установленные в вашей среде Python.
+conda create -p rag python==3.12
+conda activate rag
+pip install ipykernel
+pip install -r requirements.txt
+Далее импортируем необходимые пакеты:
+# Core Python libraries
+import os
+import re
+from typing import List
+
+# PDF processing - we'll use pypdf instead of fitz
+from pypdf import PdfReader
+
+# LangChain components for our RAG system
+from langchain_community.vectorstores import FAISS
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain.schema import Document
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnablePassthrough
+
+# Environment management
+from dotenv import load_dotenv
+
+# Load your API keys
+load_dotenv()
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+PDF_PATH = os.getenv("PDF_PATH")  # Path to your PDF file
+
+print(" All libraries loaded successfully!")
+Мы импортировали все необходимые инструменты. PyPDF будет читать наши PDF-файлы, LangChain будет обрабатывать данные с помощью ИИ, а FAISS будет хранить наши векторные представления для поиска. Рассматривайте это как ваш набор инструментов для создания системы RAG.
+Чтение PDF-документов
+Теперь давайте разберемся с первой задачей: извлечением текста из PDF-файлов. PDF-файлы сложны, потому что они предназначены для просмотра, а не для легкого чтения машинами. Нам нужно преобразовать их в обычный текст. Ваш ИИ не может понимать форматирование, шрифты или макеты PDF-файлов. Ему нужен чистый, читаемый текст. Именно этим мы и занимаемся.
+# Read the PDF and extract all text
+pdf_reader = PdfReader(PDF_PATH)
+print(f" PDF loaded with {len(pdf_reader.pages)} pages")
+
+# Extract text from all pages
+raw_text = ""
+for page_num, page in enumerate(pdf_reader.pages):
+    page_text = page.extract_text()
+    raw_text += page_text
+
+print(f" Extracted {len(raw_text)} characters total")
+Теперь давайте почистим этот текст. В PDF-файлах часто встречаются странные пробелы и управляющие символы, которые могут сбить с толку наш ИИ.
+# Clean the extracted text
+def clean_extracted_text(text: str) -> str:
+    # Replace multiple whitespace with single spaces
+    cleaned = re.sub(r'\s+', ' ', text)
+    # Remove control characters
+    cleaned = re.sub(r'[\x00-\x1F\x7F]', '', cleaned)
+    # Strip leading/trailing whitespace
+    return cleaned.strip()
+
+document_text = clean_extracted_text(raw_text)
+print(f" Cleaned text: {len(document_text)} characters")
+print(f" Preview: {document_text[:200]}...")
+Мы открыли наш PDF-файл, просмотрели каждую страницу, извлекли текст и очистили его. Этап очистки удаляет странные символы и нормализует пробелы, чтобы наш ИИ мог лучше с ним работать.
+Разбиение текста на фрагменты
+Вот тут начинается самое интересное. Мы не можем сразу загрузить весь документ в наш ИИ. Нам нужно разбить его на более мелкие, легко усваиваемые части, называемые «фрагментами».
+Представьте, что вы пытаетесь найти рецепт в кулинарной книге, каждый раз читая её целиком. Вместо этого вам нужно, чтобы она была организована по главам или отдельным рецептам. Здесь та же идея.
+chunk_size = 1000
+chunk_overlap=200
+
+# Set up our text splitter
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=chunk_size,
+    chunk_overlap=chunk_overlap,
+    length_function=len,
+    separators=["\n\n", "\n", ". ", " ", ""]
+)
+
+print(" Creating text chunks...")
+text_chunks = text_splitter.split_text(document_text)
+print(f" Created {len(text_chunks)} chunks")
+Мы использовали интеллектуальный разделитель текста LangChain, который пытается разбить текст по естественным границам (например, абзацам или предложениям).
+# Show info about our chunks
+total_chars = sum(len(chunk) for chunk in text_chunks)
+avg_chunk_size = total_chars / len(text_chunks) if text_chunks else 0
+
+print(f" Chunk Statistics:")
+print(f"   Total chunks: {len(text_chunks)}")
+print(f"   Average size: {avg_chunk_size:.0f} characters")
+print(f"   Chunk size range: {chunk_size} characters max")
+print(f"   Overlap: {chunk_overlap} characters")
+
+# Preview the first chunk
+print(f"\n First chunk preview:")
+print(f"{text_chunks[0][:300]}...")
+Chunk Statistics:
+   Total chunks: 169
+   Average size: 897 characters
+   Chunk size range: 1000 characters max
+   Overlap: 200 characters
+
+ First chunk preview:
+Mac hine Learning /1 Thomas G/...
+Перекрытие означает, что каждый фрагмент текста имеет общие черты со своими соседями, поэтому мы не теряем важную информацию, которая может выходить за пределы этих границ.
+Преобразование текста в векторные представления, пригодные для поиска
+Теперь нам нужно преобразовать фрагменты текста в числа, которые отражают их смысл. Этот процесс называется «встраиванием». Встраивания необходимы, потому что компьютеры не могут напрямую понимать смысл слов, но они могут сравнивать числа. Встраивания преобразуют слова «car» и «automobile» в похожие числа, потому что они имеют схожие значения.
+# Set up the embedding model
+print(" Setting up embeddings model...")
+embeddings_model = OpenAIEmbeddings(
+    model="text-embedding-3-small"  # OpenAI's latest embedding model
+)
+print(" Embeddings model ready!")
+Теперь давайте преобразуем наши фрагменты в документы, с которыми сможет работать LangChain:
+# Convert chunks to LangChain documents
+print("📄 Converting chunks to documents...")
+documents = []
+
+for i, chunk in enumerate(text_chunks):
+    doc = Document(
+        page_content=chunk,
+        metadata={
+            "chunk_id": i,
+            "chunk_length": len(chunk),
+            "source": "pdf_document"
+        }
+    )
+    documents.append(doc)
+
+print(f" Created {len(documents)} document objects")
+
+# Show a sample document
+sample_doc = documents[0]
+print(f"\n Sample document:")
+print(f"   Content length: {len(sample_doc.page_content)}")
+print(f"   Metadata: {sample_doc.metadata}")
+print(f"   Preview: {sample_doc.page_content[:150]}...")
+Результат:
+Converting chunks to documents...
+Created 169 document objects
+Sample document:
+Content length: 30
+Metadata: {'chunk_id': 0, 'chunk_length': 30, 'source': 'pdf_document'}
+Preview: Mac hine Learning /1 Thomas G/...
+Мы обернули каждый фрагмент текста в объект Document, который включает текст и некоторые метаданные (информацию о фрагменте). Это дает нам структурированный способ работы с нашими текстовыми фрагментами.
+Создаем базу знаний с возможностью поиска
+Теперь мы собираемся создать векторную базу данных. Представьте ее как умную систему хранения данных, которая может мгновенно находить похожий контент.
+Почему FAISS? FAISS (Facebook AI Similarity Search) — это как библиотекарь, который может мгновенно найти наиболее релевантные книги для вашего вопроса, даже если вы не знаете точного названия.
+# Create the vector database
+print(" Building searchable vector database...")
+print(" This might take a few minutes...")
+
+vector_store = FAISS.from_documents(
+    documents=documents,
+    embedding=embeddings_model
+)
+
+print(" Vector database created successfully!")
+print(f" Indexed {len(documents)} document chunks")
+Посмотрим, что получилось в итоге:
+Searching for: 'What is machine learning?'
+Found 3 relevant chunks:
+Result 1:
+Chunk ID: 5
+Preview: . This progress has tak en man y directions/. First/, in the area of inductiv e learning/, a new formal de/ nition of learning in tro duced b y Leslie V alian t has pro vided the foundation for sev er...
+Result 2:
+Chunk ID: 95
+Preview: . The metho ds can learn concepts suc h as decision trees /(ID/3/)/, disjunctiv e/-normal/-form Bo olean expressions /(F ringe/)/, and disjunctions of linear threshold units /(P erceptron trees/) in r...
+Result 3:
+Chunk ID: 154
+Preview: . S/./, Dietteric h/, T/. G/. /1/9/8/9/. Induction o v er explanations/: a metho d that exploits domain kno wledge to learn from examples/. Machine L e arning /. In press /4/1Gold/, E/. M/. /1/9/7/8/....
+Мы создали базу данных с возможностью поиска по всем фрагментам наших документов. Когда вы задаете вопрос, система преобразует его в числа того же типа (векторы) и находит фрагменты с наиболее похожими числами. Это как поиск документов, которые «думают» так же, как ваш вопрос.
+Создание вашей системы ответов на вопросы с помощью ИИ
+А теперь самое интересное — создание системы, которая действительно отвечает на ваши вопросы! Мы объединим нашу систему поиска с языковой моделью OpenAI. Магия RAG заключется в том, что вместо того, чтобы просто гадать, наш ИИ сначала будет искать в ваших документах релевантную информацию, а затем использовать эту информацию для генерации точных ответов.
+# Set up the language model
+print(" Setting up AI language model...")
+llm = ChatOpenAI(
+    model="gpt-4",
+    temperature=0.0  # Low temperature for consistent, factual answers
+)
+print(" Language model ready!")
+Теперь давайте создадим шаблон подсказки, который будет указывать нашему ИИ, как себя вести:
+# Create the prompt template using LCEL
+
+system_prompt = """
+You are a helpful AI assistant that answers questions based on the provided context.
+
+Rules:
+
+1. Only use information from the provided context to answer questions
+2. If the context doesn't contain enough information, say so honestly
+3. Be specific and cite relevant parts of the context
+4. Keep your answers clear and concise
+5. If you're unsure, admit it rather than guessing
+
+Context:
+{context}
+
+Question: {input}
+
+Answer based on the context above:
+
+"""
+
+prompt_template = ChatPromptTemplate.from_template(system_prompt)
+
+print(" Prompt template created!")
+
+ Prompt template created!
+Давайте построим полную цепочку RAG, используя LCEL (LangChain Expression Language):
+# Import LCEL components
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnablePassthrough
+
+# Create retriever from our vector store
+retriever = vector_store.as_retriever(
+    search_kwargs={"k": 4}  # Retrieve top 4 most relevant chunks
+)
+
+# Define a function to format retrieved documents
+
+def format_docs(docs):
+    return "\n\n".join(doc.page_content for doc in docs)
+
+# Build the RAG chain using LCEL pipe syntax
+
+rag_chain = (
+    {
+        "context": retriever | format_docs,  # Retrieve docs and format them
+        "input": RunnablePassthrough()       # Pass the question through
+    }
+    | prompt_template                        # Format the prompt with context and question
+    | llm                                   # Send to language model
+    | StrOutputParser()                     # Parse the output to a string
+)
+
+print(" Complete RAG system ready!")
+print(" You can now ask questions about your document!")
+Результат:
+Complete RAG system ready!
+You can now ask questions about your document!
+Далее мы воспользуемся синтаксисом LCEL. Оператор конвейера (|) связывает компоненты вместе. Вот как это работает:
+Входные данные разделяются на контекст (полученные документы) и входные данные (вопрос).
+Документы извлекаются и форматируются в одну строку.
+Вопрос проходит без изменений через RunnablePassthrough().
+Оба элемента попадают в шаблон запроса для создания окончательного запроса.
+Запрос поступает в LLM, а выходные данные преобразуются в строку.
+Это наиболее функциональный способ создания приложений LangChain.
+Задаем вопросы и получаем ответы
+Теперь давайте зададим системе несколько вопросов и посмотрим, как она себя покажет.
+def ask_document_question(question: str):
+    print(f" Question: {question}")
+    print(" Thinking...")
+
+    # Get the answer from our RAG system
+    # With LCEL, we pass the question directly as a string
+    response = rag_chain.invoke(question)
+
+    # Display the answer
+    print(f"\n Answer:")
+    print(f"{response}")
+
+    # To see source documents, we need to get them separately
+    source_docs = retriever.invoke(question)
+    print(f"\n Based on {len(source_docs)} source chunks:")
+
+    for i, doc in enumerate(source_docs, 1):
+        chunk_id = doc.metadata.get('chunk_id', 'unknown')
+        print(f"\n Source {i} (Chunk {chunk_id}):")
+        print(f"   {doc.page_content[:200]}...")
+
+    print("\n" + "="*80)
+    return response
+
+# Test with some questions
+
+questions = [
+    "What is the main topic of this document?",
+    "What are the key concepts discussed?",
+    "Can you summarize the most important points?"
+]
+
+for question in questions:
+    answer = ask_document_question(question)
+    print()  # Add some space between questions
+Посмотрим, что получилось:
+Question: What is the main topic of this document?
+Thinking...
+Answer:
+The main topic of this document is machine learning. It discusses various aspects of machine learning including inductive learning, new learning algorithms, explanation-based learning, and the philosophical foundations of machine learning. The goal of the article is to present major results in each of these areas.
+Based on 4 source chunks:
+Source 1 (Chunk 147):
+. There are man y topics that ha v e b een omitted/|three of the most imp ortan t require men tion/. First/, there are man y applications where the task is to disco v er new concepts /(or patterns/) i...
+Source 2 (Chunk 3):
+/: /: /: /: /: /: /: /2/5 /5 EXPLANA TION/-BASED LEARNING /2/5 /5/./1 The Basic EBL Pro cedure /: /: /: /: /: /: /: /: /: /: /: /: /: /: /: /: /: /: /: /: /: /: /: /: /: /: /: /: /: /: /: /: /: /2/5 /...
+Source 3 (Chunk 1):
+. Dietteric h Departmen t of Computer Science Oregon State Univ ersit y Corv allis/, OR /9/7/3/3/1/-/3/9/0/2 August /2/9/, /1/9/9/4 /1 T o app ear in A nnual R eview of Computer Scienc e /, V olume /4...
+Source 4 (Chunk 5):
+. This progress has tak en man y directions/. First/, in the area of inductiv e learning/, a new formal de/ nition of learning in tro duced b y Leslie V alian t has pro vided the foundation for sev er...
+================================================================================
+Question: What are the key concepts discussed?
+Thinking...
+Answer:
+The key concepts discussed in the context include the philosophical foundations of learning, theoretical results, practical inductive learning algorithms, explanation-based learning, the task of discovering new concepts or patterns in a collection of training examples (termed as clustering), case-based reasoning, and the concept of learning represented as deterministic finite state automata.
+Based on 4 source chunks:
+Source 1 (Chunk 6):
+. W e b egin with a discussion of the philosophical foundations/, since these will pro vide a framew ork for the remainder of the article/. This is follo w ed b y sections that describ e /(a/) theoret...
+Source 2 (Chunk 147):
+. There are man y topics that ha v e b een omitted/|three of the most imp ortan t require men tion/. First/, there are man y applications where the task is to disco v er new concepts /(or patterns/) i...
+Source 3 (Chunk 156):
+. T ec h/. Rep/. /1/4/-/8/8/, Aik en Computation Lab oratory /, Harv ard Univ ersit y /, Cam bridge MA Kearns/, M/./, V alian t/, L/. G/. /1/9/8/9/. Cryptographic limitations on learning b o olean for...
+Source 4 (Chunk 49):
+. The question of whether ev ery concept in k /-/3NN can b e learned b y / nding /(in p olynomial time/) a concept in k /0 /-/3NN /(where k /0 / p /( k /) for some p olynomial p /) is op en/. Ho w ev ...
+================================================================================
+Question: Can you summarize the most important points?
+Thinking...
+Answer:
+1. The task of discovering new concepts or patterns in a collection of training examples is often termed "clustering". An example of this is a program called Auto class which discovered a new class of stars.
+2. Case-based reasoning is another important concept that has been omitted. It involves storing previous problem-solving experiences and then solving future problems by retrieving stored solutions to similar problems.
+3. Abductive theory completion is a technique for generating plausible new rules to extend an incomplete domain theory. These rules must be tested typically by performing statistical tests on a collection of examples.
+4. Induction over explanations is a technique for refining a promiscuous domain theory by finding a maximally specific shared explanation.
+5. The best explanation for Explanation-Based Learning (EBL) is the shortest, most general one that can be found. Some form of post-optimization of the learned rules is critical.
+6. In Prodigy, three techniques are applied to simplify learned rules: partial evaluation, condition ordering, and simplification via domain theorems.
+Based on 4 source chunks:
+Source 1 (Chunk 147):
+. There are man y topics that ha v e b een omitted/|three of the most imp ortan t require men tion/. First/, there are man y applications where the task is to disco v er new concepts /(or patterns/) i...
+Source 2 (Chunk 146):
+. Ab ductiv e theory completion is a tec hnique for generating plausible new rules to extend an incomplete domain theory /. Once generated/, the rules m ust b e tested/|t ypically b y p erforming stat...
+Source 3 (Chunk 1):
+. Dietteric h Departmen t of Computer Science Oregon State Univ ersit y Corv allis/, OR /9/7/3/3/1/-/3/9/0/2 August /2/9/, /1/9/9/4 /1 T o app ear in A nnual R eview of Computer Scienc e /, V olume /4...
+Source 4 (Chunk 129):
+. In general/, the b est explanation for EBL is the shortest/, most general one that can b e found/. Explanations exploiting sp ecial/-case rules will result in learned rules that are also only applic...
+Заключение
+Как видно, наша система RAG действительно работает. Для каждого вопроса она выполняет поиск в вашем документе, находит наиболее релевантные фрагменты и генерирует ответ на основе этой информации. Вы можете точно увидеть, какие части вашего документа были использованы для создания каждого ответа.
+Машинное обучение с нуля
+Если RAG нужен не как демо, а как инженерная система, важны база по ML и умение собирать pipeline: данные—эмбеддинги—модели—оценка—прод. На
+специализации
+«Machine Learning»
+это прокачивается практикой на Python, SQL и A/B, плюс DL на PyTorch и NLP — чтобы уверенно работать с моделями и внедрять их в продукт. Для знакомства с форматом обучения и экспертами приходите на бесплатные демо-уроки:
+14 января 18:00. «Локальное окружение для начинающего ML-инженера».
+Записаться
+19 января 18:00. «Решаем задачу регрессии методами ML на Python».
+Записаться

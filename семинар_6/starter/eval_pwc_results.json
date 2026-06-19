@@ -1,9 +1,247 @@
 [
   {
-    "id": "Q6",
-    "query": "Какая сейчас реальная ключевая ставка в России и на сколько п.п. она отличается от уровня 1 января 2022?",
-    "comment": "Реальный макро-вопрос: текущая реальная ставка и сравнение с базовой датой.",
-    "n": 3,
+    "id": "Q1",
+    "query": "Во сколько раз USD подорожал с 1 января 2022 по сегодня?",
+    "comment": "Класс ошибки C: одиночный часто считает в уме, не зовёт calculate. PWC должен починить — Планировщик обязан добавить calculate-подвопрос.",
+    "n": 5,
+    "single": {
+      "runs": [
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated": [],
+          "must_have_ok": false,
+          "arith_without_calc": false,
+          "answer_preview": "Вот результат расчёта.\n\nКурс USD на **1 января 2022 года** составлял **74,29 ₽**, а на **сегодня (16 июня 2026)** — **72,45 ₽**.\n\nПолучается, что доллар не подорожал, а **подешевел"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated": [],
+          "must_have_ok": false,
+          "arith_without_calc": false,
+          "answer_preview": "Курс на 10 января 2022 — те же 74,2926 руб./$. Итог:\n\nС 1 января 2022 года (фактически курс 74,29 руб./$) по сегодня (16 июня 2026, курс 72,45 руб./$) доллар **подешевел** примерно"
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated": [],
+          "must_have_ok": true,
+          "arith_without_calc": false,
+          "answer_preview": "Интересный результат — доллар не подорожал, а наоборот, немного подешевел.\n\nС 1 января 2022 года (74,29 руб./USD) по сегодняшний день (16 июня 2026 года, 72,45 руб./USD) доллар США"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated": [],
+          "must_have_ok": false,
+          "arith_without_calc": false,
+          "answer_preview": "USD **не подорожал, а подешевел** относительно рубля за этот период.\n\n- Курс на 1 января 2022: **74,29 ₽/USD**\n- Курс на сегодня (16.06.2026): **72,45 ₽/USD**\n\nСоотношение: 72,45 /"
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated": [],
+          "must_have_ok": true,
+          "arith_without_calc": false,
+          "answer_preview": "С 1 января 2022 года (74,29 ₽/$) по 16 июня 2026 года (72,45 ₽/$) курс доллара не вырос, а снизился: он составил **0,975 от первоначального значения** — то есть рубль укрепился при"
+        }
+      ],
+      "pass": 2
+    },
+    "pwc": {
+      "runs": [
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 1,
+          "answer_preview": "Доллар не подорожал, а подешевел: сегодняшний курс (72,45 рубля) составляет примерно 0,975 от курса на 1 января 2022 года (74,29 рубля)."
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": true,
+          "iterations": 1,
+          "answer_preview": "Доллар подешевел: курс на сегодня (72,45 руб.) составляет примерно 0,95 от курса на 1 января 2022 года (76,20 руб.). Таким образом, USD подешевел в 1,05 раза."
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 2,
+          "answer_preview": "Курс доллара вырос с 74,29 руб. до 85,46 руб., то есть примерно в 1,15 раза."
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 1,
+          "answer_preview": "USD не подорожал, а подешевел: сегодняшний курс составляет 0,975 от курса на 1 января 2022 года, то есть примерно на 2,5% ниже."
+        }
+      ],
+      "pass": 1
+    },
+    "pwc_validator": {
+      "runs": [
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "Курс доллара на сегодня (72,45 руб.) составляет 0,975 от курса на 1 января 2022 года (74,29 руб.), то есть доллар не подорожал, а подешевел примерно на 2,5%."
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 1,
+          "answer_preview": "Курс доллара вырос с 74,29 руб. до 85,46 руб., то есть примерно в 1,15 раза."
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "Доллар не подорожал, а подешевел. Курс на сегодня (72,45 рубля) составляет примерно 0,975 от курса на 1 января 2022 года (74,2926 рубля), то есть снизился в 1,025 раза."
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 2,
+          "answer_preview": "Доллар подорожал примерно в 1,15 раза."
+        }
+      ],
+      "pass": 0
+    }
+  },
+  {
+    "id": "Q2",
+    "query": "Какая сейчас реальная ключевая ставка, если инфляцию брать по последнему доступному месяцу, а не по году?",
+    "comment": "Класс ошибки B: одиночный не умеет искать «последний доступный» месяц, зацикливается. PWC должен разбить на шаги.",
+    "n": 5,
     "single": {
       "runs": [
         {
@@ -16,7 +254,7 @@
           "hallucinated": [],
           "must_have_ok": true,
           "arith_without_calc": false,
-          "answer_preview": "Вот итоговый ответ.\n\n---\n\nСейчас реальная ключевая ставка в России составляет **+5,66% годовых** (номинальная ставка 16,0% минус инфляция 10,34% г/г). *Примечание: данные ЦБ в моме"
+          "answer_preview": "**Реальная ключевая ставка** составляет **5,66% годовых** (16,0% ключевая ставка − 10,34% инфляция г/г за март 2025). Примечание: данные по ключевой ставке получены из локального а"
         },
         {
           "ok": true,
@@ -28,7 +266,7 @@
           "hallucinated": [],
           "must_have_ok": true,
           "arith_without_calc": false,
-          "answer_preview": "Вот итоговый ответ:\n\n**Сейчас реальная ключевая ставка в России составляет ≈ +10,94% годовых** (номинальная 21,0% минус инфляция 10,06% г/г за февраль 2025).\n\nДля сравнения: на **1"
+          "answer_preview": "Реальная ключевая ставка составляет **6,5% годовых** (16% ключевая ставка минус 9,5% инфляции г/г за июнь 2025).\n\n*Примечание: данные по ключевой ставке получены из локального архи"
         },
         {
           "ok": true,
@@ -40,10 +278,34 @@
           "hallucinated": [],
           "must_have_ok": true,
           "arith_without_calc": false,
-          "answer_preview": "**Ответ:**\n\nСейчас реальная ключевая ставка в России составляет **5,77% годовых** (ключевая ставка 16,0% минус инфляция г/г 10,23%). Это на **5,66 п.п. выше**, чем было на 1 января"
+          "answer_preview": "На основе последних доступных данных (ключевая ставка **16,0%** — по локальному архиву, так как ЦБ в моменте недоступен; инфляция за май 2025 года **9,87%** г/г по Росстату), **реа"
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "hallucinated": [],
+          "must_have_ok": true,
+          "arith_without_calc": false,
+          "answer_preview": "Сейчас реальная ключевая ставка (ключевая 16,0% минус инфляция за март 2025 г. — 10,34% г/г) составляет **5,66% годовых**. Данные по ставке ЦБ получены из локального архива, так ка"
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "hallucinated": [],
+          "must_have_ok": true,
+          "arith_without_calc": false,
+          "answer_preview": "ЦБ в моменте недоступен, поэтому данные по ключевой ставке взяты из локального архива. Последняя доступная инфляция — за май 2025 года (9,87% г/г). Реальная ключевая ставка составл"
         }
       ],
-      "pass": 3
+      "pass": 5
     },
     "pwc": {
       "runs": [
@@ -62,8 +324,8 @@
           "hallucinated_in_workers": [],
           "hallucinated_in_plan": [],
           "must_have_ok": true,
-          "iterations": 1,
-          "answer_preview": "Сейчас реальная ключевая ставка — **5,94%** годовых. Это **ниже на 2,56 п.п.** уровня ключевой ставки на 1 января 2022 года (8,5%)."
+          "iterations": 2,
+          "answer_preview": "Реальная ключевая ставка составляет **5,66% годовых** (ключевая ставка 16,0% минус инфляция за март 2025 года 10,34%)."
         },
         {
           "ok": true,
@@ -81,7 +343,7 @@
           "hallucinated_in_plan": [],
           "must_have_ok": true,
           "iterations": 2,
-          "answer_preview": "Реальная ключевая ставка в России сейчас составляет 6,5% годовых. Она отличается от уровня 1 января 2022 года на 2,0 процентных пункта."
+          "answer_preview": "По последним данным (ключевая ставка 16,0%, инфляция за апрель 2025 — 10,23%) реальная ставка составляет **5,77% годовых**."
         },
         {
           "ok": true,
@@ -98,11 +360,47 @@
           "hallucinated_in_workers": [],
           "hallucinated_in_plan": [],
           "must_have_ok": true,
-          "iterations": 3,
-          "answer_preview": "Сейчас реальная ключевая ставка в России составляет 5,77% годовых. Это на 5,66 п.п. выше, чем на 1 января 2022 года (0,11% годовых)."
+          "iterations": 1,
+          "answer_preview": "Реальная ключевая ставка составляет **5,66% годовых** (ключевая ставка 16,0% минус инфляция 10,34% за март 2025 года)."
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": true,
+          "iterations": 1,
+          "answer_preview": "Реальная ключевая ставка составляет **6,13% годовых** (ключевая ставка 16,0% минус инфляция 9,87% за май 2025 года)."
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": true,
+          "iterations": 1,
+          "answer_preview": "Реальная ключевая ставка составляет **6,5% годовых** (ключевая ставка 16,0% минус инфляция 9,5% г/г за июнь 2025 года)."
         }
       ],
-      "pass": 3
+      "pass": 5
     },
     "pwc_validator": {
       "runs": [
@@ -122,7 +420,45 @@
           "hallucinated_in_plan": [],
           "must_have_ok": true,
           "iterations": 1,
-          "answer_preview": "Сейчас реальная ключевая ставка в России составляет 5,66% годовых. Это на 5,55 п.п. выше, чем на 1 января 2022 года."
+          "answer_preview": "Реальная ключевая ставка составляет **5,77% годовых** (ключевая ставка 16,0% минус инфляция за апрель 2025 года 10,23%)."
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
         },
         {
           "ok": true,
@@ -140,10 +476,10 @@
           "hallucinated_in_plan": [],
           "must_have_ok": true,
           "iterations": 2,
-          "answer_preview": "Сейчас реальная ключевая ставка в России составляет 5,77% годовых. Это на 6,0 п.п. выше, чем на 1 января 2022 года."
+          "answer_preview": "Реальная ключевая ставка (16,0% минус 10,23% г/г) составляет **5,77% годовых**."
         },
         {
-          "ok": true,
+          "ok": false,
           "used_tools": [
             "calculate",
             "get_inflation",
@@ -156,12 +492,957 @@
           ],
           "hallucinated_in_workers": [],
           "hallucinated_in_plan": [],
-          "must_have_ok": true,
-          "iterations": 2,
-          "answer_preview": "Реальная ключевая ставка в России сейчас составляет 5,77% годовых. Текущая номинальная ключевая ставка на 7,5 п.п. выше, чем 1 января 2022 года."
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
         }
       ],
-      "pass": 3
+      "pass": 2
+    }
+  },
+  {
+    "id": "Q3",
+    "query": "Какова накопленная инфляция с января 2022 по март 2026? Рассчитай как произведение всех (1 + ипц_м/100) по месяцам.",
+    "comment": "Класс ошибки D (граница паттерна): требует get_inflation за много месяцев + большое calculate-выражение. Одиночный галлюцинирует get_cumulative_inflation; валидатор должен это ловить.",
+    "n": 5,
+    "single": {
+      "runs": [
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "hallucinated": [],
+          "must_have_ok": false,
+          "arith_without_calc": false,
+          "answer_preview": ""
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "get_inflation"
+          ],
+          "hallucinated": [],
+          "must_have_ok": true,
+          "arith_without_calc": true,
+          "answer_preview": "Уважаемый пользователь, я получил данные ИПЦ за все запрошенные месяцы (январь 2022 — март 2026), но вынужден отметить важное ограничение.\n\nИнструмент `get_inflation` возвращает **"
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "hallucinated": [],
+          "must_have_ok": true,
+          "arith_without_calc": false,
+          "answer_preview": "Накопленная инфляция с января 2022 по март 2026, рассчитанная как произведение (1 + ИПЦ_г/г/100) по всем 51 месяцу, составила **~85,87** (или **8 587%**).\n\nОднако важно отметить: И"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "hallucinated": [],
+          "must_have_ok": false,
+          "arith_without_calc": false,
+          "answer_preview": ""
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "hallucinated": [],
+          "must_have_ok": false,
+          "arith_without_calc": false,
+          "answer_preview": ""
+        }
+      ],
+      "pass": 1
+    },
+    "pwc": {
+      "runs": [
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "plan_tools": [],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": true,
+          "iterations": 1,
+          "answer_preview": "Накопленная инфляция с января 2022 по март 2026 года составила **85,87%**."
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "plan_tools": [],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "plan_tools": [],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        }
+      ],
+      "pass": 1
+    },
+    "pwc_validator": {
+      "runs": [
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "plan_tools": [],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "plan_tools": [],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "plan_tools": [],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        }
+      ],
+      "pass": 0
+    }
+  },
+  {
+    "id": "Q4",
+    "query": "Посчитай накопленную инфляцию за 2024 год через произведение (1+ипц/100) по каждому месяцу и верни итог в процентах.",
+    "comment": "Специальный кейс под валидатор: планировщик иногда пытается использовать выдуманный инструмент вроде get_cumulative_inflation.",
+    "n": 5,
+    "single": {
+      "runs": [
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "hallucinated": [],
+          "must_have_ok": true,
+          "arith_without_calc": false,
+          "answer_preview": "Расчёт верный, но результат получился ~164,5%. Это связано с тем, что get_inflation возвращает **годовую инфляцию** (% г/г, т.е. за 12 месяцев относительно года назад), а не помеся"
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "hallucinated": [],
+          "must_have_ok": true,
+          "arith_without_calc": false,
+          "answer_preview": "Хм, результат 164.48% выглядит аномально большим. Это произошло потому, что я взял ИПЦ **% г/г** (год к году), а не **месячную инфляцию** (месяц к предыдущему месяцу). Для расчёта "
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "hallucinated": [],
+          "must_have_ok": true,
+          "arith_without_calc": false,
+          "answer_preview": "Накопленная инфляция за 2024 год, рассчитанная как произведение (1 + ИПЦ_мес/100) по всем 12 месяцам, составила **164,5%**.\n\n**Важное замечание.** Такой расчёт ошибочен по смыслу: "
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "hallucinated": [],
+          "must_have_ok": true,
+          "arith_without_calc": false,
+          "answer_preview": "Получилось 164,48% — это явно некорректно. Дело в том, что ИПЦ (% г/г) — это рост цен за последние 12 месяцев к предыдущим 12 месяцам (годовая инфляция), а не помесячный прирост. Д"
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "get_inflation"
+          ],
+          "hallucinated": [],
+          "must_have_ok": true,
+          "arith_without_calc": false,
+          "answer_preview": "Вот полная картина.\n\n---\n\n**Важное уточнение:** инструмент **get_inflation** предоставляет данные **ИПЦ % г/г** (к соответствующему месяцу предыдущего года), а не **месяц к месяцу "
+        }
+      ],
+      "pass": 5
+    },
+    "pwc": {
+      "runs": [
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "plan_tools": [],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "plan_tools": [],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "plan_tools": [],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        }
+      ],
+      "pass": 0
+    },
+    "pwc_validator": {
+      "runs": [
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "plan_tools": [],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "plan_tools": [],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "plan_tools": [],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "plan_tools": [],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation"
+          ],
+          "plan_tools": [],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        }
+      ],
+      "pass": 0
+    }
+  },
+  {
+    "id": "Q5",
+    "query": "Как изменился рубль к USD, EUR и CNY с 1 января 2022 по сегодня, и какая из валют изменилась сильнее всего?",
+    "comment": "Естественная параллельность: 3 независимых ветки по валютам + финальная агрегация.",
+    "n": 5,
+    "single": {
+      "runs": [
+        {
+          "ok": false,
+          "used_tools": [],
+          "hallucinated": [],
+          "must_have_ok": false,
+          "arith_without_calc": false,
+          "answer_preview": ""
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated": [],
+          "must_have_ok": true,
+          "arith_without_calc": false,
+          "answer_preview": "Вот итоговый анализ изменения курса рубля к трём валютам с 1 января 2022 года по сегодняшний день (20 апреля 2026):\n\n**Изменение курса (сколько рублей стало нужно за 1 единицу валю"
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated": [],
+          "must_have_ok": true,
+          "arith_without_calc": false,
+          "answer_preview": "Готово! Вот сводка:\n\n| Валюта | Курс на 01.01.2022 | Курс на 16.06.2026 | Изменение |\n|:------:|:------------------:|:------------------:|:---------:|\n| **USD** | 74,29 ₽ | 72,45 ₽"
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated": [],
+          "must_have_ok": true,
+          "arith_without_calc": false,
+          "answer_preview": "Вот итоговые результаты:\n\n**Изменение курса рубля к валютам с 1 января 2022 по 16 июня 2026:**\n\n| Валюта | Курс на 01.01.2022 | Курс сегодня (16.06.2026) | Изменение |\n|--------|--"
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated": [],
+          "must_have_ok": true,
+          "arith_without_calc": false,
+          "answer_preview": "Вот итоговые данные. Давайте подведу итог.\n\n---\n\n### Изменение курса рубля с начала 2022 года по сегодня (16 июня 2026):\n\n| Валюта | Курс на начало* | Курс сегодня | Изменение |\n|:"
+        }
+      ],
+      "pass": 4
+    },
+    "pwc": {
+      "runs": [
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 2,
+          "answer_preview": "Сильнее всего из трёх валют изменился курс доллара США: он вырос на 15,04% с 1 января 2022 года по 9 апреля 2025 года."
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 2,
+          "answer_preview": "С 1 января 2022 года по 20 апреля 2026 года рубль ослаб к доллару на 8,27% (до 82,5 руб.) и к евро на 8,41% (до 94,1 руб.), но укрепился к юаню на 5,42% (до 11,35 руб.). Сильнее вс"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 1,
+          "answer_preview": "С 1 января 2022 года по 20 апреля 2026 года рубль ослаб к доллару на 8,27% и к евро на 8,41%, но укрепился к юаню на 5,42%. Сильнее всего изменился курс евро, который вырос на 8,41"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 1,
+          "answer_preview": "С 1 января 2022 года по 20 апреля 2026 года рубль ослаб к доллару (+8,27%) и евро (+8,41%), но укрепился к юаню (-5,42%). Сильнее всего по модулю изменился курс евро (+8,41%)."
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 1,
+          "answer_preview": "С 1 января 2022 года по сегодня рубль ослаб к доллару на 8,27% и к евро на 8,41%, а к юаню укрепился на 2,58%. Сильнее всего изменился курс евро, выросший на 8,41%."
+        }
+      ],
+      "pass": 0
+    },
+    "pwc_validator": {
+      "runs": [
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "С 1 января 2022 года по сегодня (09.04.2025) рубль ослаб к доллару (+3,02%) и евро (+2,88%), но укрепился к юаню (-5,42%). Сильнее всего изменился китайский юань — его курс снизилс"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 1,
+          "answer_preview": "С 1 января 2022 года по сегодняшний день курс рубля изменился следующим образом: доллар США снизился на 2,90%, евро — на 0,40%, а китайский юань — на 8,48%. Сильнее всего изменился"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 1,
+          "answer_preview": "С 1 января 2022 года по сегодняшний день рубль укрепился ко всем трём валютам: к доллару на 2,90%, к евро на 0,40%, к юаню на 8,48%. Сильнее всего изменился курс китайского юаня (C"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_fx_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "С 1 января 2022 года по сегодня рубль укрепился ко всем трём валютам: доллар снизился на 2,90%, евро — на 0,40%, а китайский юань — на 8,48%. Сильнее всего изменился курс CNY (сниж"
+        }
+      ],
+      "pass": 0
+    }
+  },
+  {
+    "id": "Q6",
+    "query": "Какая сейчас реальная ключевая ставка в России и на сколько п.п. она отличается от уровня 1 января 2022?",
+    "comment": "Реальный макро-вопрос: текущая реальная ставка и сравнение с базовой датой.",
+    "n": 5,
+    "single": {
+      "runs": [
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "hallucinated": [],
+          "must_have_ok": true,
+          "arith_without_calc": false,
+          "answer_preview": "Вот итоговый ответ:\n\nСейчас реальная ключевая ставка в России составляет **6,13% годовых** (номинальная 16,0% минус инфляция 9,87% г/г). Это на **2,37 п.п. ниже** номинальной ставк"
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "hallucinated": [],
+          "must_have_ok": true,
+          "arith_without_calc": false,
+          "answer_preview": "Вот итоговый ответ.\n\nСейчас реальная ключевая ставка в России составляет **6.5% годовых** (16.0% ключевая ставка минус 9.5% инфляция г/г). На 1 января 2022 года реальная ставка был"
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "hallucinated": [],
+          "must_have_ok": true,
+          "arith_without_calc": false,
+          "answer_preview": "Сейчас реальная ключевая ставка в России составляет **10,66% годовых** (номинальная 21,0% минус инфляция 10,34% г/г на март 2025). На 1 января 2022 реальная ставка была **0,11%** ("
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "hallucinated": [],
+          "must_have_ok": true,
+          "arith_without_calc": false,
+          "answer_preview": "Вот итоговый ответ.\n\nСейчас (июнь 2026) реальная ключевая ставка составляет **9,2% годовых** (16,0% номинальной ставки минус 6,8% инфляции г/г за март 2026). На 1 января 2022 реаль"
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "hallucinated": [],
+          "must_have_ok": true,
+          "arith_without_calc": false,
+          "answer_preview": "Вот итоговый ответ.\n\nСейчас (февраль 2025) реальная ключевая ставка составляет **5,94% годовых** (16,0% номинала минус 10,06% инфляции г/г). На 1 января 2022 она была **0,11%** (8,"
+        }
+      ],
+      "pass": 5
+    },
+    "pwc": {
+      "runs": [
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": true,
+          "iterations": 2,
+          "answer_preview": "Сейчас реальная ключевая ставка в России — 6,13% годовых. Это на 6,36 п.п. выше, чем было 1 января 2022 года."
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": true,
+          "iterations": 1,
+          "answer_preview": "Сейчас реальная ключевая ставка в России составляет 6,13%. Это на 6,02 процентного пункта выше, чем было на 1 января 2022 года."
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": true,
+          "iterations": 1,
+          "answer_preview": "Сейчас реальная ключевая ставка в России составляет 5,66%. Это на 5,55 п.п. выше, чем на 1 января 2022 года."
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": true,
+          "iterations": 1,
+          "answer_preview": "По данным на май 2025 года, реальная ключевая ставка (с учётом инфляции 9,87%) составляет 6,13% годовых. Это на 2,37 процентного пункта ниже номинальной ключевой ставки 8,5%, дейст"
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        }
+      ],
+      "pass": 4
+    },
+    "pwc_validator": {
+      "runs": [
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": true,
+          "iterations": 2,
+          "answer_preview": "Сейчас реальная ключевая ставка в России составляет 5,77% годовых. Это на 5,66 процентного пункта выше, чем на 1 января 2022 года (тогда она была 0,11%)."
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": true,
+          "iterations": 2,
+          "answer_preview": "Сейчас реальная ключевая ставка в России составляет 6,9% годовых. Это на 7,13 процентного пункта выше, чем на 1 января 2022 года (тогда она была –0,23%)."
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": true,
+          "iterations": 1,
+          "answer_preview": "Реальная ключевая ставка в России сейчас составляет 5,66% годовых (16,0% минус 10,34% инфляции). Это на 2,84 процентного пункта ниже уровня 8,5%, который был на 1 января 2022 года."
+        },
+        {
+          "ok": false,
+          "used_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": false,
+          "iterations": 3,
+          "answer_preview": "",
+          "error": "не удалось получить вердикт 'accept' за 3 итераций"
+        },
+        {
+          "ok": true,
+          "used_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "plan_tools": [
+            "calculate",
+            "get_inflation",
+            "get_key_rate"
+          ],
+          "hallucinated_in_workers": [],
+          "hallucinated_in_plan": [],
+          "must_have_ok": true,
+          "iterations": 3,
+          "answer_preview": "Сейчас реальная ключевая ставка — 6,5% годовых. Это на 6,39 п.п. выше, чем было 1 января 2022 года."
+        }
+      ],
+      "pass": 4
     }
   }
 ]

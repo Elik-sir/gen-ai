@@ -1,0 +1,17 @@
+{
+  "cases": [
+    {
+      "case_id": "q_1475",
+      "ghost_quotes": 0,
+      "fake_chunk_ids": 0,
+      "unsupported_numbers": 0,
+      "total_issues": 0,
+      "issues": []
+    }
+  ],
+  "totals": {
+    "ghost_quotes": 0,
+    "fake_chunk_ids": 0,
+    "unsupported_numbers": 0
+  }
+}

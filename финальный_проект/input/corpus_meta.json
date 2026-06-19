@@ -1,0 +1,86 @@
+{
+  "articles": [
+    {
+      "id": "habr_rag_deep_dive",
+      "title": "Retrieval-Augmented Generation (RAG): глубокий технический обзор",
+      "url": "https://habr.com/ru/articles/931396/",
+      "chars": 51818,
+      "words": 6793,
+      "file": "habr_rag_deep_dive.txt"
+    },
+    {
+      "id": "habr_rag_intro",
+      "title": "Что такое Retrieval-Augmented Generation (RAG) в языковых моделях и как оно работает?",
+      "url": "https://habr.com/ru/articles/841428/",
+      "chars": 12750,
+      "words": 1601,
+      "file": "habr_rag_intro.txt"
+    },
+    {
+      "id": "habr_rag_simple",
+      "title": "RAG (Retrieval Augmented Generation) — простое и понятное объяснение",
+      "url": "https://habr.com/ru/articles/779526/",
+      "chars": 11579,
+      "words": 1667,
+      "file": "habr_rag_simple.txt"
+    },
+    {
+      "id": "habr_rag_smart_search",
+      "title": "RAG или умный поиск по документам: как это работает",
+      "url": "https://habr.com/ru/articles/1016166/",
+      "chars": 17083,
+      "words": 2164,
+      "file": "habr_rag_smart_search.txt"
+    },
+    {
+      "id": "habr_rag_python",
+      "title": "Создаем простую систему RAG на Python",
+      "url": "https://habr.com/ru/companies/otus/articles/979458/",
+      "chars": 20707,
+      "words": 2887,
+      "file": "habr_rag_python.txt"
+    },
+    {
+      "id": "habr_react_chestnyznak",
+      "title": "От Naive RAG до ReAct-агента: как мы строили корпоративного AI-помощника на open-source моделях (часть 2)",
+      "url": "https://habr.com/ru/companies/chestnyznak/articles/1045460/",
+      "chars": 28153,
+      "words": 3797,
+      "file": "habr_react_chestnyznak.txt"
+    },
+    {
+      "id": "habr_agent_prod",
+      "title": "Готовим ИИ-агента к продакшену",
+      "url": "https://habr.com/ru/companies/selectel/articles/1015508/",
+      "chars": 30533,
+      "words": 4145,
+      "file": "habr_agent_prod.txt"
+    },
+    {
+      "id": "habr_hybrid_rag",
+      "title": "Hybrid RAG knowledge base за 15 минут — почему пришлось собрать свою lite версию RAG и в чем опасность RAG фреймворков",
+      "url": "https://habr.com/ru/articles/1005776/",
+      "chars": 42758,
+      "words": 5253,
+      "file": "habr_hybrid_rag.txt"
+    },
+    {
+      "id": "habr_react_sber",
+      "title": "Современный ReAct-агент: подробное руководство по созданию с помощью LangGraph",
+      "url": "https://habr.com/ru/companies/sberbank/articles/934938/",
+      "chars": 30201,
+      "words": 3610,
+      "file": "habr_react_sber.txt"
+    },
+    {
+      "id": "habr_rag_eval",
+      "title": "Как оценивать RAG-системы: метрики, методы и что измерять в первую очередь",
+      "url": "https://habr.com/ru/companies/otus/articles/1011464/",
+      "chars": 28258,
+      "words": 3712,
+      "file": "habr_rag_eval.txt"
+    }
+  ],
+  "total_chars": 273840,
+  "count": 10
+}

@@ -1,0 +1,19 @@
+id,type,pass,hit_rate,judge_verdict,status,ghost_quotes,agent_steps,search_calls,prompt_tokens,completion_tokens,latency_sec,question
+1,прямой,False,0.5,supported,answered,0,3,2,4246,724,15.6,Что такое RAG (Retrieval-Augmented Generation)?
+2,прямой,True,1.0,supported,answered,0,2,1,2683,272,7.88,Когда была предложена идея RAG?
+3,прямой,False,0.0,supported,answered,1,5,3,10670,1546,30.14,Какие этапы включает стандартный RAG-пайплайн?
+4,перефраз,True,1.0,supported,answered,0,2,1,2099,277,7.84,Как по-русски расшифровывают аббревиатуру RAG?
+5,прямой,True,0.5,supported,answered,0,4,3,6824,846,36.64,Что такое гибридный поиск в RAG?
+6,прямой,True,1.0,supported,answered,0,3,2,4136,767,21.53,Что такое Reciprocal Rank Fusion (RRF)?
+7,прямой,False,1.0,supported,answered,0,5,3,11015,1661,44.52,Что такое паттерн ReAct?
+8,перефраз,False,1.0,supported,answered,0,4,2,9072,1858,25.97,Как LLM-агент принимает решения в цикле Thought -> Action -> Observation?
+9,прямой,True,1.0,supported,answered,0,4,3,7286,708,18.83,Что такое HyDE в контексте RAG?
+10,прямой,False,1.0,supported,answered,0,3,2,5516,832,28.35,Какие параметры chunking упоминаются для production RAG-агента?
+11,прямой,True,1.0,supported,answered,0,4,3,8684,1067,22.38,Что такое метрика faithfulness (верность контексту) в оценке RAG?
+12,прямой,True,1.0,supported,answered,0,3,2,3901,492,23.87,Какой фреймворк упоминается для автоматической оценки RAG?
+13,multi-hop,False,0.5,supported,answered,1,6,4,21525,2943,51.69,Как ReAct-агент использует RAG-поиск и чем это лучше статичного пайплайна?
+14,multi-hop,False,1.0,supported,answered,0,6,5,11055,1646,29.66,Зачем нужен reranking после retrieval и как он связан с ReAct-архитектурой?
+15,перефраз,False,0.5,supported,answered,0,4,3,7469,967,22.89,Как naive RAG превращают в агента с инструментом поиска?
+16,out-of-scope,True,0.0,abstain_ok,insufficient,0,4,3,9097,760,15.47,Как настроить Kubernetes для деплоя RAG-системы в AWS?
+17,out-of-scope,True,0.0,abstain_ok,insufficient,0,3,2,5290,398,20.72,Какой курс Bitcoin упоминается в статьях про RAG?
+18,adversarial,False,0.0,abstain_ok,insufficient,1,3,2,5380,589,23.15,Использует ли RAG блокчейн для хранения embeddings?

@@ -1,0 +1,146 @@
+[
+  {
+    "id": 1,
+    "type": "прямой",
+    "question": "Что такое RAG (Retrieval-Augmented Generation)?",
+    "gold_sources": ["habr_rag_intro", "habr_rag_simple"],
+    "gold_answer": "RAG — подход, при котором LLM дополняется внешними документами: сначала retrieval релевантных фрагментов, затем генерация ответа на их основе.",
+    "expect_abstain": false
+  },
+  {
+    "id": 2,
+    "type": "прямой",
+    "question": "Когда была предложена идея RAG?",
+    "gold_sources": ["habr_rag_deep_dive"],
+    "gold_answer": "Идея RAG была предложена в 2020 году.",
+    "expect_abstain": false
+  },
+  {
+    "id": 3,
+    "type": "прямой",
+    "question": "Какие этапы включает стандартный RAG-пайплайн?",
+    "gold_sources": ["habr_rag_smart_search", "habr_rag_python"],
+    "gold_answer": "Индексация (chunking + embeddings + vector store), retrieval по запросу, generation ответа LLM на основе найденного контекста.",
+    "expect_abstain": false
+  },
+  {
+    "id": 4,
+    "type": "перефраз",
+    "question": "Как по-русски расшифровывают аббревиатуру RAG?",
+    "gold_sources": ["habr_rag_intro"],
+    "gold_answer": "Поисковая дополненная генерация (Retrieval-Augmented Generation).",
+    "expect_abstain": false
+  },
+  {
+    "id": 5,
+    "type": "прямой",
+    "question": "Что такое гибридный поиск в RAG?",
+    "gold_sources": ["habr_hybrid_rag", "habr_rag_smart_search"],
+    "gold_answer": "Комбинация семантического (dense/vector) и ключевого (BM25/keyword) поиска для повышения точности retrieval.",
+    "expect_abstain": false
+  },
+  {
+    "id": 6,
+    "type": "прямой",
+    "question": "Что такое Reciprocal Rank Fusion (RRF)?",
+    "gold_sources": ["habr_hybrid_rag"],
+    "gold_answer": "Метод объединения ранжированных списков результатов разных retriever'ов по обратным рангам.",
+    "expect_abstain": false
+  },
+  {
+    "id": 7,
+    "type": "прямой",
+    "question": "Что такое паттерн ReAct?",
+    "gold_sources": ["habr_react_sber", "habr_react_chestnyznak"],
+    "gold_answer": "ReAct (Reasoning + Acting) — агент чередует рассуждение (Thought), действие (Action) и наблюдение результата (Observation).",
+    "expect_abstain": false
+  },
+  {
+    "id": 8,
+    "type": "перефраз",
+    "question": "Как LLM-агент принимает решения в цикле Thought -> Action -> Observation?",
+    "gold_sources": ["habr_react_chestnyznak"],
+    "gold_answer": "Модель рассуждает, вызывает инструмент, получает observation и итеративно уточняет ответ.",
+    "expect_abstain": false
+  },
+  {
+    "id": 9,
+    "type": "прямой",
+    "question": "Что такое HyDE в контексте RAG?",
+    "gold_sources": ["habr_rag_smart_search"],
+    "gold_answer": "HyDE — техника, где LLM генерирует гипотетический документ-ответ, который затем используется для семантического поиска.",
+    "expect_abstain": false
+  },
+  {
+    "id": 10,
+    "type": "прямой",
+    "question": "Какие параметры chunking упоминаются для production RAG-агента?",
+    "gold_sources": ["habr_agent_prod"],
+    "gold_answer": "Размер чанка около 500 токенов, overlap около 100 токенов, подбирается экспериментально.",
+    "expect_abstain": false
+  },
+  {
+    "id": 11,
+    "type": "прямой",
+    "question": "Что такое метрика faithfulness (верность контексту) в оценке RAG?",
+    "gold_sources": ["habr_rag_eval"],
+    "gold_answer": "Faithfulness измеряет, подтверждается ли каждое утверждение в ответе найденным контекстом; основной инструмент против галлюцинаций.",
+    "expect_abstain": false
+  },
+  {
+    "id": 12,
+    "type": "прямой",
+    "question": "Какой фреймворк упоминается для автоматической оценки RAG?",
+    "gold_sources": ["habr_rag_eval"],
+    "gold_answer": "Ragas — фреймворк с метриками faithfulness, answer relevancy, context precision/recall.",
+    "expect_abstain": false
+  },
+  {
+    "id": 13,
+    "type": "multi-hop",
+    "question": "Как ReAct-агент использует RAG-поиск и чем это лучше статичного пайплайна?",
+    "gold_sources": ["habr_react_chestnyznak", "habr_agent_prod"],
+    "gold_answer": "RAG обёрнут в инструмент rag_search/search; агент сам решает когда искать, сколько раз и с какими формулировками, вместо жёсткого графа.",
+    "expect_abstain": false
+  },
+  {
+    "id": 14,
+    "type": "multi-hop",
+    "question": "Зачем нужен reranking после retrieval и как он связан с ReAct-архитектурой?",
+    "gold_sources": ["habr_react_chestnyznak"],
+    "gold_answer": "Reranking (cross-encoder) уточняет top-k чанков перед генерацией; в ReAct-версии поиск с reranking объединён в единый инструмент для агента.",
+    "expect_abstain": false
+  },
+  {
+    "id": 15,
+    "type": "перефраз",
+    "question": "Как naive RAG превращают в агента с инструментом поиска?",
+    "gold_sources": ["habr_react_chestnyznak", "habr_hybrid_rag"],
+    "gold_answer": "Поиск и reranking оборачивают в tool (rag_search), а LLM в ReAct-цикле сама решает когда и как его вызывать.",
+    "expect_abstain": false
+  },
+  {
+    "id": 16,
+    "type": "out-of-scope",
+    "question": "Как настроить Kubernetes для деплоя RAG-системы в AWS?",
+    "gold_sources": [],
+    "gold_answer": null,
+    "expect_abstain": true
+  },
+  {
+    "id": 17,
+    "type": "out-of-scope",
+    "question": "Какой курс Bitcoin упоминается в статьях про RAG?",
+    "gold_sources": [],
+    "gold_answer": null,
+    "expect_abstain": true
+  },
+  {
+    "id": 18,
+    "type": "adversarial",
+    "question": "Использует ли RAG блокчейн для хранения embeddings?",
+    "gold_sources": [],
+    "gold_answer": null,
+    "expect_abstain": true
+  }
+]
